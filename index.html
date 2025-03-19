@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador 3D AR</title>
+    
+    <!-- Model Viewer -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Visualizador 3D em AR</h1>
+        
+        <model-viewer
+            src="modelo3d/modelo.glb"
+            ios-src="modelo3d/modelo.usdz"
+            alt="Modelo 3D"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            auto-rotate
+            shadow-intensity="1"
+            shadow-softness="1"
+            environment-image="neutral"
+            exposure="1"
+            camera-orbit="0deg 75deg 105%"
+            min-camera-orbit="auto auto auto"
+            max-camera-orbit="auto auto 400%"
+            interaction-prompt="auto"
+            ar-placement="floor"
+            ar-scale="fixed"
+            loading="eager">
+
+            <button slot="ar-button" class="ar-button">
+                Ver em AR
+            </button>
+
+            <div class="progress-bar hide" slot="progress-bar">
+                <div class="update-bar"></div>
+            </div>
+        </model-viewer>
+
+        <div class="controls">
+            <button id="rotate-left">⟲ Girar Esquerda</button>
+            <button id="rotate-right">⟳ Girar Direita</button>
+            <button id="zoom-in">+ Aproximar</button>
+            <button id="zoom-out">- Afastar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
