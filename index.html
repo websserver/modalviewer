@@ -69,30 +69,50 @@
             style="width: 100%; height: 70vh; background-color: #ffffff;">
 
             <!-- Hotspots -->
-            <button class="hotspot" slot="hotspot-1" data-position="0.1 0.2 0.1" data-normal="0 1 0" data-visibility-attribute="visible" style="transform: translate3d(0, 0, 0);">
+            <button class="hotspot" slot="hotspot-1" data-position="0.1 0.2 0.1" data-normal="0 1 0" data-visibility-attribute="visible" style="transform: translate3d(0, 0, 0);" data-surface="front">
                 <div class="hotspot-dot"></div>
                 <div class="hotspot-label">Tela OLED</div>
             </button>
 
-            <button class="hotspot" slot="hotspot-2" data-position="-0.1 0.15 0" data-normal="0 1 0" data-visibility-attribute="visible" style="transform: translate3d(0, 0, 0);">
+            <button class="hotspot" slot="hotspot-2" data-position="-0.1 0.15 0" data-normal="0 1 0" data-visibility-attribute="visible" style="transform: translate3d(0, 0, 0);" data-surface="front">
                 <div class="hotspot-dot"></div>
                 <div class="hotspot-label">Bateria</div>
             </button>
 
-            <button class="hotspot" slot="hotspot-3" data-position="0 0.25 0.1" data-normal="0 1 0" data-visibility-attribute="visible" style="transform: translate3d(0, 0, 0);">
+            <button class="hotspot" slot="hotspot-3" data-position="0 0.25 0.1" data-normal="0 1 0" data-visibility-attribute="visible" style="transform: translate3d(0, 0, 0);" data-surface="front">
                 <div class="hotspot-dot"></div>
                 <div class="hotspot-label">Câmara de Aquecimento</div>
             </button>
 
-            <!-- Adicionar script para garantir visibilidade dos hotspots -->
+            <!-- Script para gerenciar hotspots -->
             <script>
                 const modelViewer = document.querySelector('model-viewer');
-                modelViewer.addEventListener('load', () => {
+                
+                // Função para garantir visibilidade dos hotspots
+                function updateHotspotsVisibility() {
                     const hotspots = document.querySelectorAll('.hotspot');
                     hotspots.forEach(hotspot => {
                         hotspot.style.opacity = '1';
                         hotspot.style.visibility = 'visible';
+                        hotspot.style.pointerEvents = 'auto';
                     });
+                }
+
+                // Atualizar hotspots quando o modelo carregar
+                modelViewer.addEventListener('load', updateHotspotsVisibility);
+
+                // Atualizar hotspots quando AR iniciar
+                modelViewer.addEventListener('ar-status', (event) => {
+                    if (event.detail.status === 'session-started') {
+                        updateHotspotsVisibility();
+                    }
+                });
+
+                // Atualizar hotspots durante o tracking AR
+                modelViewer.addEventListener('ar-tracking', (event) => {
+                    if (event.detail.status === 'tracking') {
+                        updateHotspotsVisibility();
+                    }
                 });
             </script>
 
