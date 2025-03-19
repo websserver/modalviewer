@@ -31,22 +31,30 @@ model-viewer {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    --poster-color: transparent;
 }
 
 .ar-button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 16px 32px;
     border-radius: 24px;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .ar-button:hover {
     background-color: #45a049;
+}
+
+.ar-button:active {
+    transform: scale(0.98);
 }
 
 .controls {
@@ -64,12 +72,17 @@ model-viewer {
     padding: 10px 20px;
     border-radius: 20px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     font-size: 0.9rem;
 }
 
 .controls button:hover {
     background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.controls button:active {
+    transform: translateY(0);
 }
 
 .progress-bar {
@@ -90,6 +103,25 @@ model-viewer {
     display: none;
 }
 
+.ar-prompt {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+model-viewer[ar-status="not-presenting"] .ar-prompt {
+    opacity: 1;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .container {
@@ -102,12 +134,18 @@ model-viewer {
     }
 
     model-viewer {
-        height: 50vh;
+        height: 60vh;
     }
 
     .controls button {
-        padding: 8px 16px;
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+
+    .ar-prompt {
         font-size: 0.8rem;
+        padding: 8px 16px;
+        bottom: 16px;
     }
 }
 
@@ -123,5 +161,9 @@ model-viewer {
 
     .controls button {
         width: 100%;
+    }
+
+    model-viewer {
+        height: 50vh;
     }
 } 

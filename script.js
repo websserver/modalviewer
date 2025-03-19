@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const rotateRightBtn = document.getElementById('rotate-right');
     const zoomInBtn = document.getElementById('zoom-in');
     const zoomOutBtn = document.getElementById('zoom-out');
+    const arPrompt = document.querySelector('.ar-prompt');
 
     // Configurações de rotação e zoom
     const ROTATION_SPEED = 30;
@@ -59,10 +60,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Tratamento de erros de carregamento
-    modelViewer.addEventListener('error', (error) => {
-        console.error('Erro ao carregar o modelo:', error);
-        alert('Ocorreu um erro ao carregar o modelo 3D. Por favor, tente novamente mais tarde.');
+    // Eventos AR
+    modelViewer.addEventListener('ar-status', (event) => {
+        if (event.detail.status === 'not-presenting') {
+            arPrompt.style.opacity = '1';
+        } else if (event.detail.status === 'session-started') {
+            arPrompt.style.opacity = '0';
+        }
     });
 
     // Verificação de suporte a AR
@@ -74,5 +78,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (arButton) {
             arButton.style.display = 'none';
         }
+        arPrompt.style.display = 'none';
     }
+
+    // Tratamento de erros
+    modelViewer.addEventListener('error', (error) => {
+        console.error('Erro ao carregar o modelo:', error);
+        alert('Ocorreu um erro ao carregar o modelo 3D. Por favor, tente novamente mais tarde.');
+    });
+
+    // Feedback de carregamento do modelo
+    modelViewer.addEventListener('load', () => {
+        console.log('Modelo 3D carregado com sucesso');
+    });
 }); 

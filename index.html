@@ -22,6 +22,8 @@
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
+            ar-scale="auto"
+            ar-placement="floor wall"
             camera-controls
             auto-rotate
             shadow-intensity="1"
@@ -32,16 +34,21 @@
             min-camera-orbit="auto auto auto"
             max-camera-orbit="auto auto 400%"
             interaction-prompt="auto"
-            ar-placement="floor"
-            ar-scale="fixed"
-            loading="eager">
+            loading="eager"
+            xr-environment
+            ar-status="not-presenting">
 
             <button slot="ar-button" class="ar-button">
-                Ver em AR
+                Colocar em AR
             </button>
 
             <div class="progress-bar hide" slot="progress-bar">
                 <div class="update-bar"></div>
+            </div>
+
+            <!-- Instruções AR -->
+            <div class="ar-prompt">
+                <p>👆 Toque no botão AR e aponte a câmera para uma superfície</p>
             </div>
         </model-viewer>
 
