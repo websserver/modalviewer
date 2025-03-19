@@ -42,7 +42,7 @@
         <model-viewer
             id="model-viewer"
             src="https://websserver.github.io/modalviewer/modelo3d/iprimeaqua_1.glb"
-            ios-src="https://websserver.github.io/modalviewer/modelo3d/modelo.usdz"
+            ios-src="https://websserver.github.io/modalviewer/modelo3d/iprimeaqua_1.usdz"
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
@@ -134,7 +134,9 @@
                     // Atualizar modelo
                     const modelName = button.getAttribute('data-model');
                     const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.glb`;
+                    const usdzUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
                     modelViewer.src = modelUrl;
+                    modelViewer.iosSrc = usdzUrl;
                     
                     // Resetar câmera
                     modelViewer.cameraOrbit = '0deg 75deg 105%';
@@ -182,7 +184,12 @@
                         const anchor = document.createElement('a');
                         anchor.setAttribute('rel', 'ar');
                         anchor.appendChild(document.createElement('img'));
-                        const modelUrl = 'https://websserver.github.io/modalviewer/modelo3d/modelo.usdz';
+                        
+                        // Obter o modelo atual selecionado
+                        const activeButton = document.querySelector('.model-button.active');
+                        const modelName = activeButton.getAttribute('data-model');
+                        const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
+                        
                         anchor.setAttribute('href', modelUrl);
                         anchor.click();
                     } catch (error) {
