@@ -16,18 +16,6 @@
         <div class="hero-content">
             <H2>NOVO</H2>
             <h1 class="hero-title">IQOS ILUMA i PRIME</h1>
-            <div class="hero-model">
-                <model-viewer 
-                    src="modelo3d/modelo.glb"
-                    camera-controls
-                    auto-rotate
-                    rotation-per-second="30deg"
-                    interaction-prompt="none"
-                    shadow-intensity="1"
-                    exposure="1.2"
-                    style="width: 100%; height: 60vh;">
-                </model-viewer>
-            </div>
             <p class="hero-description">A inovação atinge um novo patamar</p>
             <button class="cta-button">EXPERIÊNCIA IMERSIVA</button>
         </div>
@@ -41,36 +29,12 @@
             <button class="model-button" data-model="iprimeaqua_2">IQOS ILUMA ONE</button>
             <button class="model-button" data-model="iprimeaqua_3">IQOS ILUMA PRIME</button>
         </div>
-        
-        <!-- Mensagem de erro -->
-        <div id="error-message" class="error-message" style="display: none;">
-            <p>Ocorreu um erro ao carregar o modelo. Por favor, tente novamente.</p>
-        </div>
 
-        <!-- Painel de informações dos hotspots -->
-        <div id="hotspot-info" class="hotspot-info" style="display: none;">
-            <button class="close-button" onclick="closeHotspotInfo()">×</button>
-            <h2 id="hotspot-title">Título</h2>
-            <p id="hotspot-description">Descrição</p>
-        </div>
-        
-        <!-- Botões AR -->
-        <div class="ar-buttons">
-            <!-- Botão AR para Android -->
-            <button id="ar-button-android" class="ar-button" style="display: none;">
-                Ver em AR
-            </button>
-            
-            <!-- Botão AR para iOS -->
-            <button id="ar-button-ios" class="ar-button" style="display: none;">
-                Abrir em AR (iOS)
-            </button>
-        </div>
-        
+        <!-- Visualizador 3D -->
         <model-viewer
             id="model-viewer"
-            src="https://websserver.github.io/modalviewer/modelo3d/iprimeaqua_1.glb"
-            ios-src="https://websserver.github.io/modalviewer/modelo3d/iprimeaqua_1.usdz"
+            src="modelo3d/iprimeaqua_1.glb"
+            ios-src="modelo3d/iprimeaqua_1.usdz"
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
@@ -91,52 +55,20 @@
             style="width: 100%; height: 70vh; background-color: #ffffff;">
 
             <!-- Hotspots -->
-            <button class="hotspot" slot="hotspot-1" data-position="0.1 0.2 0.1" data-normal="0 1 0" data-visibility-attribute="visible" style="transform: translate3d(0, 0, 0);" data-surface="front">
+            <button class="hotspot" slot="hotspot-1" data-position="0.1 0.2 0.1" data-normal="0 1 0" data-visibility-attribute="visible">
                 <div class="hotspot-dot"></div>
                 <div class="hotspot-label">Tela OLED</div>
             </button>
 
-            <button class="hotspot" slot="hotspot-2" data-position="-0.1 0.15 0" data-normal="0 1 0" data-visibility-attribute="visible" style="transform: translate3d(0, 0, 0);" data-surface="front">
+            <button class="hotspot" slot="hotspot-2" data-position="-0.1 0.15 0" data-normal="0 1 0" data-visibility-attribute="visible">
                 <div class="hotspot-dot"></div>
                 <div class="hotspot-label">Bateria</div>
             </button>
 
-            <button class="hotspot" slot="hotspot-3" data-position="0 0.25 0.1" data-normal="0 1 0" data-visibility-attribute="visible" style="transform: translate3d(0, 0, 0);" data-surface="front">
+            <button class="hotspot" slot="hotspot-3" data-position="0 0.25 0.1" data-normal="0 1 0" data-visibility-attribute="visible">
                 <div class="hotspot-dot"></div>
                 <div class="hotspot-label">Câmara de Aquecimento</div>
             </button>
-
-            <!-- Script para gerenciar hotspots -->
-            <script>
-                const modelViewer = document.querySelector('model-viewer');
-                
-                // Função para garantir visibilidade dos hotspots
-                function updateHotspotsVisibility() {
-                    const hotspots = document.querySelectorAll('.hotspot');
-                    hotspots.forEach(hotspot => {
-                        hotspot.style.opacity = '1';
-                        hotspot.style.visibility = 'visible';
-                        hotspot.style.pointerEvents = 'auto';
-                    });
-                }
-
-                // Atualizar hotspots quando o modelo carregar
-                modelViewer.addEventListener('load', updateHotspotsVisibility);
-
-                // Atualizar hotspots quando AR iniciar
-                modelViewer.addEventListener('ar-status', (event) => {
-                    if (event.detail.status === 'session-started') {
-                        updateHotspotsVisibility();
-                    }
-                });
-
-                // Atualizar hotspots durante o tracking AR
-                modelViewer.addEventListener('ar-tracking', (event) => {
-                    if (event.detail.status === 'tracking') {
-                        updateHotspotsVisibility();
-                    }
-                });
-            </script>
 
             <!-- Aviso AR -->
             <div class="ar-placement-prompt" slot="ar-prompt">
@@ -182,34 +114,11 @@
     </div>
 
     <script>
-        // Dados dos hotspots
-        const hotspotData = {
-            'hotspot-1': {
-                title: 'Tela OLED',
-                description: 'Tela OLED de alta resolução que mostra o status do dispositivo, nível de bateria e configurações.'
-            },
-            'hotspot-2': {
-                title: 'Bateria',
-                description: 'Bateria de longa duração que permite várias sessões de uso. Recarregável via USB-C.'
-            },
-            'hotspot-3': {
-                title: 'Câmara de Aquecimento',
-                description: 'Tecnologia de aquecimento avançada que garante uma experiência consistente.'
-            }
-        };
-
         document.addEventListener('DOMContentLoaded', function() {
-            const modelViewer = document.querySelector('model-viewer');
-            const arButtonAndroid = document.getElementById('ar-button-android');
-            const arButtonIOS = document.getElementById('ar-button-ios');
-            const errorMessage = document.getElementById('error-message');
-            const arPromptText = document.getElementById('ar-prompt-text');
-            const hotspotInfo = document.getElementById('hotspot-info');
-            const hotspotTitle = document.getElementById('hotspot-title');
-            const hotspotDescription = document.getElementById('hotspot-description');
+            const modelViewer = document.querySelector('#model-viewer');
+            const modelButtons = document.querySelectorAll('.model-button');
             
             // Configurar seletor de modelos
-            const modelButtons = document.querySelectorAll('.model-button');
             modelButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     // Remover classe active de todos os botões
@@ -219,121 +128,14 @@
                     
                     // Atualizar modelo
                     const modelName = button.getAttribute('data-model');
-                    const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.glb`;
-                    const usdzUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
-                    modelViewer.src = modelUrl;
-                    modelViewer.iosSrc = usdzUrl;
+                    modelViewer.src = `modelo3d/${modelName}.glb`;
+                    modelViewer.iosSrc = `modelo3d/${modelName}.usdz`;
                     
                     // Resetar câmera
                     modelViewer.cameraOrbit = '0deg 75deg 105%';
                     modelViewer.fieldOfView = '30deg';
                 });
             });
-            
-            // Configurar hotspots
-            const hotspots = document.querySelectorAll('.hotspot');
-            hotspots.forEach(hotspot => {
-                hotspot.addEventListener('click', () => {
-                    const slotName = hotspot.getAttribute('slot');
-                    const data = hotspotData[slotName];
-                    if (data) {
-                        hotspotTitle.textContent = data.title;
-                        hotspotDescription.textContent = data.description;
-                        hotspotInfo.style.display = 'block';
-                    }
-                });
-            });
-
-            // Adicionar evento para mostrar coordenadas do clique
-            modelViewer.addEventListener('click', (event) => {
-                const hit = modelViewer.positionAndNormalFromPoint(event.clientX, event.clientY);
-                if (hit) {
-                    console.log('Posição do clique:', hit.position);
-                }
-            });
-
-            // Fechar painel de informações
-            window.closeHotspotInfo = function() {
-                hotspotInfo.style.display = 'none';
-            };
-            
-            // Detectar dispositivo
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const isAndroid = /Android/i.test(navigator.userAgent);
-            
-            // Configurar botões AR baseado no dispositivo
-            if (isIOS) {
-                arButtonIOS.style.display = 'block';
-                arButtonAndroid.style.display = 'none';
-                arPromptText.textContent = 'Toque no botão para iniciar AR';
-                
-                arButtonIOS.addEventListener('click', function() {
-                    // Obter modelo atual e abrir AR diretamente
-                    const activeButton = document.querySelector('.model-button.active');
-                    const modelName = activeButton.getAttribute('data-model');
-                    window.location.href = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
-                });
-            } else if (isAndroid) {
-                arButtonAndroid.style.display = 'block';
-                arButtonIOS.style.display = 'none';
-                arPromptText.textContent = 'Toque no botão para iniciar AR';
-                
-                // Configurar botão AR para Android
-                arButtonAndroid.addEventListener('click', function() {
-                    modelViewer.activateAR();
-                });
-            } else {
-                // Se for PC, esconder o aviso e os botões AR
-                document.querySelector('.ar-prompt').style.display = 'none';
-                document.querySelector('.ar-buttons').style.display = 'none';
-            }
-
-            // Atualizar mensagem quando o modelo carregar
-            modelViewer.addEventListener('load', () => {
-                if (isIOS || isAndroid) {
-                    arPromptText.textContent = 'Toque no botão para iniciar AR';
-                } else {
-                    document.querySelector('.ar-prompt').style.display = 'none';
-                }
-                console.log('Modelo carregado com sucesso');
-            });
-
-            // Atualizar mensagem em caso de erro
-            modelViewer.addEventListener('error', () => {
-                arPromptText.textContent = 'Erro ao carregar o modelo';
-                console.error('Erro ao carregar o modelo');
-            });
-
-            // Verificar suporte a AR e configurar eventos
-            if (modelViewer) {
-                modelViewer.addEventListener('ar-status', (event) => {
-                    const arInstructions = document.querySelector('.ar-instructions');
-                    
-                    if (event.detail.status === 'failed') {
-                        console.error('Falha ao iniciar AR:', event.detail.error);
-                        errorMessage.style.display = 'block';
-                        errorMessage.querySelector('p').textContent = 
-                            'Não foi possível iniciar o AR. Verifique se seu dispositivo suporta AR.';
-                        if (arInstructions) {
-                            arInstructions.style.display = 'none';
-                        }
-                    } else if (event.detail.status === 'session-started') {
-                        console.log('Sessão AR iniciada');
-                        if (arInstructions) {
-                            arInstructions.style.display = 'flex';
-                            arInstructions.style.opacity = '1';
-                            updateHotspotsVisibility(); // Garantir que os hotspots estejam visíveis
-                        }
-                    }
-                });
-
-                // Atualizar visibilidade dos hotspots durante o tracking
-                modelViewer.addEventListener('ar-tracking', (event) => {
-                    if (event.detail.status === 'tracking') {
-                        updateHotspotsVisibility();
-                    }
-                });
-            }
 
             // Configurar botões de controle
             const rotateLeftBtn = document.getElementById('rotate-left');
@@ -374,6 +176,15 @@
             zoomOutBtn.addEventListener('click', () => {
                 currentZoom = Math.min(200, currentZoom + zoomDelta);
                 updateCameraOrbit();
+            });
+
+            // Atualizar hotspots quando o modelo carregar
+            modelViewer.addEventListener('load', () => {
+                const hotspots = document.querySelectorAll('.hotspot');
+                hotspots.forEach(hotspot => {
+                    hotspot.style.opacity = '1';
+                    hotspot.style.visibility = 'visible';
+                });
             });
         });
     </script>
