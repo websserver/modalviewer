@@ -529,66 +529,6 @@ model-viewer[ar-status="session-started"] .hotspot-label {
     padding: 20px;
 }
 
-.nav-menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    position: relative;
-    z-index: 10;
-}
-
-.logo img {
-    height: 40px;
-}
-
-.menu-items {
-    display: flex;
-    gap: 40px;
-}
-
-.menu-items a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    transition: opacity 0.3s;
-}
-
-.menu-items a:hover {
-    opacity: 0.8;
-}
-
-.menu-items a.active {
-    position: relative;
-}
-
-.menu-items a.active::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: white;
-}
-
-.social-icons {
-    display: flex;
-    gap: 20px;
-}
-
-.social-icons img {
-    height: 20px;
-    opacity: 0.8;
-    transition: opacity 0.3s;
-}
-
-.social-icons img:hover {
-    opacity: 1;
-}
-
 .hero-content {
     display: flex;
     flex-direction: column;
@@ -598,6 +538,7 @@ model-viewer[ar-status="session-started"] .hotspot-label {
     padding: 40px 20px;
     position: relative;
     z-index: 2;
+    min-height: 100vh;
 }
 
 .hero-title {
@@ -656,14 +597,6 @@ model-viewer[ar-status="session-started"] .hotspot-label {
         font-size: 80px;
     }
 
-    .nav-menu {
-        padding: 20px;
-    }
-
-    .menu-items {
-        gap: 20px;
-    }
-
     .hero-model {
         margin: -50px auto;
     }
@@ -672,10 +605,6 @@ model-viewer[ar-status="session-started"] .hotspot-label {
 @media (max-width: 480px) {
     .hero-title {
         font-size: 50px;
-    }
-
-    .menu-items {
-        display: none;
     }
 
     .hero-description {
