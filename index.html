@@ -260,7 +260,27 @@
                 arButtonAndroid.addEventListener('click', function() {
                     modelViewer.activateAR();
                 });
+            } else {
+                // Se for PC, esconder o aviso e os botões AR
+                document.querySelector('.ar-prompt').style.display = 'none';
+                document.querySelector('.ar-buttons').style.display = 'none';
             }
+
+            // Atualizar mensagem quando o modelo carregar
+            modelViewer.addEventListener('load', () => {
+                if (isIOS || isAndroid) {
+                    arPromptText.textContent = 'Toque no botão para iniciar AR';
+                } else {
+                    document.querySelector('.ar-prompt').style.display = 'none';
+                }
+                console.log('Modelo carregado com sucesso');
+            });
+
+            // Atualizar mensagem em caso de erro
+            modelViewer.addEventListener('error', () => {
+                arPromptText.textContent = 'Erro ao carregar o modelo';
+                console.error('Erro ao carregar o modelo');
+            });
 
             // Verificar suporte a AR e configurar eventos
             if (modelViewer) {
