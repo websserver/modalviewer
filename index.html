@@ -63,7 +63,6 @@
             ar-placement="floor"
             ar-scale="fixed"
             loading="eager"
-            ar-status="not-presenting"
             style="width: 100%; height: 70vh; background-color: #ffffff;">
 
             <!-- Hotspots -->
@@ -88,7 +87,7 @@
             </div>
 
             <!-- Instruções AR -->
-            <div class="ar-instructions" slot="ar-status">
+            <div class="ar-instructions" slot="ar-overlay">
                 <div class="instruction-item">
                     <span class="instruction-icon">👆</span>
                     <span>Toque para colocar o modelo</span>
@@ -252,22 +251,36 @@
                         errorMessage.style.display = 'block';
                         errorMessage.querySelector('p').textContent = 
                             'Não foi possível iniciar o AR. Verifique se seu dispositivo suporta AR.';
+                        if (arInstructions) {
+                            arInstructions.style.display = 'none';
+                        }
                     } else if (event.detail.status === 'session-started') {
                         console.log('Sessão AR iniciada');
                         if (arInstructions) {
                             arInstructions.style.display = 'flex';
-                            // Esconder instruções após 10 segundos
+                            arInstructions.style.opacity = '1';
+                            
+                            // Esconder instruções após 15 segundos
                             setTimeout(() => {
                                 arInstructions.style.opacity = '0';
                                 setTimeout(() => {
                                     arInstructions.style.display = 'none';
                                 }, 500);
-                            }, 10000);
+                            }, 15000);
                         }
                     } else if (event.detail.status === 'not-presenting') {
                         if (arInstructions) {
                             arInstructions.style.display = 'none';
                         }
+                    }
+                });
+
+                // Adicionar evento para quando o AR é ativado
+                modelViewer.addEventListener('ar-tracking', (event) => {
+                    const arInstructions = document.querySelector('.ar-instructions');
+                    if (arInstructions && event.detail.status === 'tracking') {
+                        arInstructions.style.display = 'flex';
+                        arInstructions.style.opacity = '1';
                     }
                 });
 

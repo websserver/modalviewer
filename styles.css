@@ -407,32 +407,57 @@ model-viewer[ar-status="not-presenting"] .ar-prompt {
 /* Instruções AR */
 .ar-instructions {
     position: fixed;
-    top: 20px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.85);
     color: white;
-    padding: 15px;
+    padding: 20px;
     border-radius: 12px;
-    font-size: 14px;
-    z-index: 1000;
+    font-size: 16px;
+    z-index: 9999;
     display: none;
     flex-direction: column;
-    gap: 12px;
-    opacity: 1;
+    gap: 15px;
+    opacity: 0;
     transition: opacity 0.5s ease;
     max-width: 90%;
-    width: 300px;
+    width: 320px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .instruction-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+    padding: 8px 0;
 }
 
 .instruction-icon {
-    font-size: 20px;
-    min-width: 24px;
-    text-align: center;
+    font-size: 24px;
+    min-width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    padding: 5px;
+}
+
+/* Animação de entrada */
+@keyframes slideInInstructions {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -40%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.ar-instructions.visible {
+    display: flex;
+    animation: slideInInstructions 0.5s ease forwards;
 } 
