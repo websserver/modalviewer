@@ -359,21 +359,7 @@ model-viewer[ar-tracking] .hotspot-dot {
 }
 
 .ar-prompt {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    pointer-events: none;
-    z-index: 1000;
-}
-
-model-viewer[ar-status="not-presenting"] .ar-prompt {
-    opacity: 1;
+    display: none !important;
 }
 
 /* Instruções AR */
