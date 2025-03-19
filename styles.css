@@ -82,22 +82,26 @@ model-viewer {
 }
 
 .controls button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    background-color: #ffffff;
+    border: 2px solid #00BFB3;
+    color: #00BFB3;
+    padding: 12px 24px;
+    border-radius: 25px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .controls button:hover {
-    background-color: #45a049;
+    background-color: #00BFB3;
+    color: white;
+    transform: translateY(-2px);
 }
 
 .controls button:active {
-    background-color: #3d8b40;
+    transform: translateY(0);
+    background-color: #009B8F;
 }
 
 /* Botões AR */
@@ -513,64 +517,5 @@ model-viewer[ar-status="session-started"] .hotspot-label {
         font-size: 6px;
         padding: 1px 3px;
         min-width: 30px;
-    }
-}
-
-/* Header com degradê */
-.header-gradient {
-    background: linear-gradient(135deg, #00BFB3 0%, #008C83 100%);
-    width: 100%;
-    height: 300px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40px;
-    overflow: hidden;
-}
-
-.header-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.header-model {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.header-model model-viewer {
-    width: 100%;
-    height: 100%;
-    --poster-color: transparent;
-    background-color: transparent;
-}
-
-.header-title {
-    position: relative;
-    z-index: 2;
-    color: white;
-    font-size: 64px;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    padding: 20px;
-    background: linear-gradient(90deg, rgba(0,191,179,0) 0%, rgba(0,191,179,0.8) 50%, rgba(0,191,179,0) 100%);
-}
-
-@media (max-width: 768px) {
-    .header-gradient {
-        height: 200px;
-    }
-
-    .header-title {
-        font-size: 36px;
     }
 } 
