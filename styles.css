@@ -518,4 +518,60 @@ model-viewer[ar-status="session-started"] .hotspot-label {
         padding: 1px 3px;
         min-width: 30px;
     }
+}
+
+/* Header Animado */
+.header-animation {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.model-indicator {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.model-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #00BFB3;
+    opacity: 0.3;
+    transition: all 0.5s ease;
+}
+
+.model-dot.active {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.model-title {
+    font-size: 32px;
+    color: #00BFB3;
+    font-weight: 600;
+    position: absolute;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.model-title.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; transform: translateY(20px); }
+    20%, 80% { opacity: 1; transform: translateY(0); }
+}
+
+.model-title.animate {
+    animation: fadeInOut 3s ease infinite;
 } 
