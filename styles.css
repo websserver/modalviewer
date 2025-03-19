@@ -402,4 +402,37 @@ model-viewer[ar-status="not-presenting"] .ar-prompt {
         transform: translate(-50%, 0);
         opacity: 1;
     }
+}
+
+/* Instruções AR */
+.ar-instructions {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 14px;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    max-width: 90%;
+    width: 300px;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.instruction-icon {
+    font-size: 20px;
+    min-width: 24px;
+    text-align: center;
 } 

@@ -87,6 +87,26 @@
                 Pouse o seu IQOS clicando no ecrã
             </div>
 
+            <!-- Instruções AR -->
+            <div class="ar-instructions" slot="ar-status">
+                <div class="instruction-item">
+                    <span class="instruction-icon">👆</span>
+                    <span>Toque para colocar o modelo</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="instruction-icon">✋</span>
+                    <span>Arraste com um dedo para mover</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="instruction-icon">🤏</span>
+                    <span>Belisque para redimensionar</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="instruction-icon">↻</span>
+                    <span>Gire com dois dedos para rodar</span>
+                </div>
+            </div>
+
             <div class="progress-bar hide" slot="progress-bar">
                 <div class="update-bar"></div>
             </div>
@@ -225,6 +245,8 @@
             // Verificar suporte a AR
             if (modelViewer) {
                 modelViewer.addEventListener('ar-status', (event) => {
+                    const arInstructions = document.querySelector('.ar-instructions');
+                    
                     if (event.detail.status === 'failed') {
                         console.error('Falha ao iniciar AR:', event.detail.error);
                         errorMessage.style.display = 'block';
@@ -232,6 +254,20 @@
                             'Não foi possível iniciar o AR. Verifique se seu dispositivo suporta AR.';
                     } else if (event.detail.status === 'session-started') {
                         console.log('Sessão AR iniciada');
+                        if (arInstructions) {
+                            arInstructions.style.display = 'flex';
+                            // Esconder instruções após 10 segundos
+                            setTimeout(() => {
+                                arInstructions.style.opacity = '0';
+                                setTimeout(() => {
+                                    arInstructions.style.display = 'none';
+                                }, 500);
+                            }, 10000);
+                        }
+                    } else if (event.detail.status === 'not-presenting') {
+                        if (arInstructions) {
+                            arInstructions.style.display = 'none';
+                        }
                     }
                 });
 
