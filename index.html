@@ -245,18 +245,30 @@
                 arButtonAndroid.style.display = 'none';
                 arPromptText.textContent = 'Toque no botão para iniciar AR';
                 
-                // Usar a mesma experiência AR do Android no iOS
                 arButtonIOS.addEventListener('click', function() {
-                    const iosFeatures = document.getElementById('ios-features');
-                    iosFeatures.style.display = 'block';
-                    
-                    // Criar link AR
+                    // Criar link AR diretamente
                     const anchor = document.createElement('a');
                     anchor.setAttribute('rel', 'ar');
                     const activeButton = document.querySelector('.model-button.active');
                     const modelName = activeButton.getAttribute('data-model');
                     const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
                     anchor.setAttribute('href', modelUrl);
+                    
+                    // Mostrar lista de características
+                    const iosFeatures = document.getElementById('ios-features');
+                    if (iosFeatures) {
+                        iosFeatures.style.position = 'fixed';
+                        iosFeatures.style.bottom = '20px';
+                        iosFeatures.style.left = '50%';
+                        iosFeatures.style.transform = 'translateX(-50%)';
+                        iosFeatures.style.zIndex = '9999';
+                        iosFeatures.style.display = 'block';
+                        iosFeatures.style.width = '90%';
+                        iosFeatures.style.maxWidth = '400px';
+                        iosFeatures.style.background = 'rgba(255, 255, 255, 0.95)';
+                    }
+                    
+                    // Iniciar experiência AR
                     anchor.click();
                 });
             } else if (isAndroid) {
