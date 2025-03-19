@@ -107,10 +107,20 @@ model-viewer {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: auto;
+    min-width: 200px;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
 }
 
 .ar-button:hover {
     background-color: #009B8F;
+    transform: translateY(-2px);
+}
+
+.ar-button:active {
+    transform: translateY(0);
 }
 
 /* Hotspots */

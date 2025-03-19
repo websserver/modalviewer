@@ -243,31 +243,28 @@
             if (isIOS) {
                 arButtonIOS.style.display = 'block';
                 arButtonAndroid.style.display = 'none';
-                arPromptText.textContent = 'Toque no botão azul para iniciar AR no iOS';
+                arPromptText.textContent = 'Toque no botão para iniciar AR';
                 
+                // Usar a mesma experiência AR do Android no iOS
                 arButtonIOS.addEventListener('click', function() {
                     try {
+                        modelViewer.activateAR();
+                    } catch (error) {
+                        console.error('Erro ao abrir AR:', error);
+                        // Fallback para Quick Look se o AR nativo falhar
                         const anchor = document.createElement('a');
                         anchor.setAttribute('rel', 'ar');
-                        
-                        // Adicionar metadados para anotações no USDZ
                         const activeButton = document.querySelector('.model-button.active');
                         const modelName = activeButton.getAttribute('data-model');
-                        const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz#custom=allowsContentScaling=1&applePayButtonType=plain&checkoutTitle=My%20Custom%20Store&checkoutSubtitle=My%20Custom%20Store&price=$1.99&callToAction=Add%20to%20Cart&canonicalWebPageURL=https://websserver.github.io/modalviewer/&annotations=[{"type":"label","text":"Tela OLED","position":[0.1,0.2,0.1]},{"type":"label","text":"Bateria","position":[-0.1,0.15,0]},{"type":"label","text":"Câmara de Aquecimento","position":[0,0.25,0.1]}]`;
-                        
+                        const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
                         anchor.setAttribute('href', modelUrl);
                         anchor.click();
-                    } catch (error) {
-                        console.error('Erro ao abrir AR no iOS:', error);
-                        errorMessage.style.display = 'block';
-                        errorMessage.querySelector('p').textContent = 
-                            'Erro ao abrir AR no iOS. Certifique-se de estar usando Safari.';
                     }
                 });
             } else if (isAndroid) {
                 arButtonAndroid.style.display = 'block';
                 arButtonIOS.style.display = 'none';
-                arPromptText.textContent = 'Toque no botão verde para iniciar AR';
+                arPromptText.textContent = 'Toque no botão para iniciar AR';
                 
                 // Configurar botão AR para Android
                 arButtonAndroid.addEventListener('click', function() {
@@ -275,7 +272,7 @@
                 });
             }
 
-            // Verificar suporte a AR
+            // Verificar suporte a AR e configurar eventos
             if (modelViewer) {
                 modelViewer.addEventListener('ar-status', (event) => {
                     const arInstructions = document.querySelector('.ar-instructions');
@@ -293,46 +290,15 @@
                         if (arInstructions) {
                             arInstructions.style.display = 'flex';
                             arInstructions.style.opacity = '1';
-                            
-                            // Esconder instruções após 15 segundos
-                            setTimeout(() => {
-                                arInstructions.style.opacity = '0';
-                                setTimeout(() => {
-                                    arInstructions.style.display = 'none';
-                                }, 500);
-                            }, 15000);
-                        }
-                    } else if (event.detail.status === 'not-presenting') {
-                        if (arInstructions) {
-                            arInstructions.style.display = 'none';
+                            updateHotspotsVisibility(); // Garantir que os hotspots estejam visíveis
                         }
                     }
                 });
 
-                // Adicionar evento para quando o AR é ativado
+                // Atualizar visibilidade dos hotspots durante o tracking
                 modelViewer.addEventListener('ar-tracking', (event) => {
-                    const arInstructions = document.querySelector('.ar-instructions');
-                    if (arInstructions && event.detail.status === 'tracking') {
-                        arInstructions.style.display = 'flex';
-                        arInstructions.style.opacity = '1';
-                    }
-                });
-
-                modelViewer.addEventListener('load', () => {
-                    console.log('Modelo carregado com sucesso');
-                    if (isIOS) {
-                        arPromptText.textContent = 'Toque no botão azul para iniciar AR no iOS';
-                    } else if (isAndroid) {
-                        arPromptText.textContent = 'Toque no botão verde para iniciar AR';
-                    }
-                });
-
-                modelViewer.addEventListener('error', (error) => {
-                    console.error('Erro ao carregar modelo:', error);
-                    errorMessage.style.display = 'block';
-                    if (isIOS) {
-                        errorMessage.querySelector('p').textContent = 
-                            'Erro ao carregar o modelo 3D. Verifique sua conexão e tente novamente.';
+                    if (event.detail.status === 'tracking') {
+                        updateHotspotsVisibility();
                     }
                 });
             }
