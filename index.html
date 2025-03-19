@@ -12,18 +12,30 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header-animation">
-            <div class="model-indicator">
-                <div class="model-dot active" data-model="1"></div>
-                <div class="model-dot" data-model="2"></div>
-                <div class="model-dot" data-model="3"></div>
+    <div class="header-gradient">
+        <div class="header-content">
+            <div class="header-model">
+                <model-viewer
+                    src="https://websserver.github.io/modalviewer/modelo3d/iprimeaqua_1.glb"
+                    camera-controls="false"
+                    auto-rotate
+                    rotation-per-second="30deg"
+                    interaction-prompt="none"
+                    camera-orbit="0deg 75deg 105%"
+                    min-camera-orbit="auto auto auto"
+                    max-camera-orbit="auto auto auto"
+                    camera-target="0 0 0"
+                    exposure="1"
+                    shadow-intensity="0"
+                    shadow-softness="0"
+                    environment-image="neutral">
+                </model-viewer>
             </div>
-            <div class="model-title active" data-model="1">iPrime Aqua 1</div>
-            <div class="model-title" data-model="2">iPrime Aqua 2</div>
-            <div class="model-title" data-model="3">iPrime Aqua 3</div>
+            <h1 class="header-title">IQOS ILUMA</h1>
         </div>
+    </div>
 
+    <div class="container">
         <h1>Equipamentos de tabaco aquecido</h1>
         
         <!-- Seletor de Modelos -->
@@ -365,44 +377,6 @@
             zoomOutBtn.addEventListener('click', () => {
                 currentZoom = Math.min(200, currentZoom + zoomDelta);
                 updateCameraOrbit();
-            });
-        });
-
-        // Animação do header
-        let currentModel = 1;
-        const totalModels = 3;
-        const modelNames = ['iprimeaqua_1', 'iprimeaqua_2', 'iprimeaqua_3'];
-
-        function updateHeader(modelNumber) {
-            // Atualizar dots
-            document.querySelectorAll('.model-dot').forEach(dot => {
-                dot.classList.remove('active');
-            });
-            document.querySelector(`.model-dot[data-model="${modelNumber}"]`).classList.add('active');
-
-            // Atualizar títulos
-            document.querySelectorAll('.model-title').forEach(title => {
-                title.classList.remove('active');
-            });
-            document.querySelector(`.model-title[data-model="${modelNumber}"]`).classList.add('active');
-
-            // Atualizar modelo 3D
-            const modelViewer = document.querySelector('#model-viewer');
-            modelViewer.src = `https://websserver.github.io/modalviewer/modelo3d/${modelNames[modelNumber-1]}.glb`;
-            modelViewer.iosSrc = `https://websserver.github.io/modalviewer/modelo3d/${modelNames[modelNumber-1]}.usdz`;
-        }
-
-        // Iniciar animação automática
-        setInterval(() => {
-            currentModel = (currentModel % totalModels) + 1;
-            updateHeader(currentModel);
-        }, 3000);
-
-        // Adicionar interatividade aos dots
-        document.querySelectorAll('.model-dot').forEach(dot => {
-            dot.addEventListener('click', () => {
-                currentModel = parseInt(dot.dataset.model);
-                updateHeader(currentModel);
             });
         });
     </script>

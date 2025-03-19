@@ -68,7 +68,7 @@ model-viewer {
 /* Botões de controle */
 .controls {
     display: none; /* Por padrão, esconde os botões */
-    gap: 15px;
+    gap: 10px;
     margin-top: 20px;
     flex-wrap: wrap;
     justify-content: center;
@@ -82,26 +82,22 @@ model-viewer {
 }
 
 .controls button {
-    background-color: #ffffff;
-    border: 2px solid #00BFB3;
-    color: #00BFB3;
-    padding: 12px 24px;
-    border-radius: 25px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s;
 }
 
 .controls button:hover {
-    background-color: #00BFB3;
-    color: white;
-    transform: translateY(-2px);
+    background-color: #45a049;
 }
 
 .controls button:active {
-    transform: translateY(0);
-    background-color: #009B8F;
+    background-color: #3d8b40;
 }
 
 /* Botões AR */
@@ -520,58 +516,61 @@ model-viewer[ar-status="session-started"] .hotspot-label {
     }
 }
 
-/* Header Animado */
-.header-animation {
+/* Header com degradê */
+.header-gradient {
+    background: linear-gradient(135deg, #00BFB3 0%, #008C83 100%);
     width: 100%;
-    height: 120px;
+    height: 300px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
-    position: relative;
+    margin-bottom: 40px;
     overflow: hidden;
 }
 
-.model-indicator {
+.header-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: center;
 }
 
-.model-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #00BFB3;
-    opacity: 0.3;
-    transition: all 0.5s ease;
-}
-
-.model-dot.active {
-    opacity: 1;
-    transform: scale(1.2);
-}
-
-.model-title {
-    font-size: 32px;
-    color: #00BFB3;
-    font-weight: 600;
+.header-model {
+    width: 100%;
+    height: 100%;
     position: absolute;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
+    top: 0;
+    left: 0;
 }
 
-.model-title.active {
-    opacity: 1;
-    transform: translateY(0);
+.header-model model-viewer {
+    width: 100%;
+    height: 100%;
+    --poster-color: transparent;
+    background-color: transparent;
 }
 
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0; transform: translateY(20px); }
-    20%, 80% { opacity: 1; transform: translateY(0); }
+.header-title {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-size: 64px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(90deg, rgba(0,191,179,0) 0%, rgba(0,191,179,0.8) 50%, rgba(0,191,179,0) 100%);
 }
 
-.model-title.animate {
-    animation: fadeInOut 3s ease infinite;
+@media (max-width: 768px) {
+    .header-gradient {
+        height: 200px;
+    }
+
+    .header-title {
+        font-size: 36px;
+    }
 } 
