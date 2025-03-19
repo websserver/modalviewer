@@ -2,12 +2,11 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Visualizador 3D AR</title>
     
     <!-- Model Viewer -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
     
     <!-- Estilos -->
     <link rel="stylesheet" href="styles.css">
@@ -16,39 +15,33 @@
     <div class="container">
         <h1>Visualizador 3D em AR</h1>
         
+        <!-- Botão AR Personalizado para iOS -->
+        <button id="ar-button-ios" class="ar-button" style="display: none;">
+            Abrir em AR (iOS)
+        </button>
+        
         <model-viewer
             src="modelo3d/modelo.glb"
             ios-src="modelo3d/modelo.usdz"
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
-            ar-scale="auto"
-            ar-placement="floor wall"
             camera-controls
             auto-rotate
             shadow-intensity="1"
             shadow-softness="1"
-            environment-image="neutral"
             exposure="1"
-            camera-orbit="0deg 75deg 105%"
-            min-camera-orbit="auto auto auto"
-            max-camera-orbit="auto auto 400%"
-            interaction-prompt="auto"
-            loading="eager"
-            xr-environment
-            ar-status="not-presenting">
+            interaction-prompt="none"
+            ar-placement="floor"
+            ar-scale="fixed"
+            style="width: 100%; height: 70vh; background-color: #ffffff;">
 
-            <button slot="ar-button" class="ar-button">
-                Colocar em AR
+            <button slot="ar-button" id="ar-button" class="ar-button">
+                Ver em AR
             </button>
 
             <div class="progress-bar hide" slot="progress-bar">
                 <div class="update-bar"></div>
-            </div>
-
-            <!-- Instruções AR -->
-            <div class="ar-prompt">
-                <p>👆 Toque no botão AR e aponte a câmera para uma superfície</p>
             </div>
         </model-viewer>
 
@@ -60,6 +53,44 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modelViewer = document.querySelector('model-viewer');
+            const arButton = document.getElementById('ar-button');
+            const arButtonIOS = document.getElementById('ar-button-ios');
+            
+            // Detectar iOS
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            
+            if (isIOS) {
+                // Configurar botão AR para iOS
+                arButtonIOS.style.display = 'block';
+                arButtonIOS.addEventListener('click', function() {
+                    const anchor = document.createElement('a');
+                    anchor.setAttribute('rel', 'ar');
+                    anchor.appendChild(document.createElement('img'));
+                    anchor.setAttribute('href', 'modelo3d/modelo.usdz');
+                    anchor.click();
+                });
+            }
+
+            // Verificar suporte a AR
+            if (modelViewer) {
+                modelViewer.addEventListener('ar-status', (event) => {
+                    if (event.detail.status === 'failed') {
+                        console.error('Falha ao iniciar AR');
+                    }
+                });
+
+                modelViewer.addEventListener('load', () => {
+                    console.log('Modelo carregado com sucesso');
+                });
+
+                modelViewer.addEventListener('error', (error) => {
+                    console.error('Erro ao carregar modelo:', error);
+                });
+            }
+        });
+    </script>
 </body>
 </html> 
