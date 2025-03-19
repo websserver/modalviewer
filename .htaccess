@@ -1,0 +1,6 @@
+AddType model/vnd.usdz+zip .usdz
+AddType model/gltf-binary .glb
+
+<FilesMatch "\.(usdz|glb)$">
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch> 

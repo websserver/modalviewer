@@ -1,0 +1,3 @@
+baseurl: ""
+url: "https://websserver.github.io/modalviewer"
+include: [".htaccess"] 

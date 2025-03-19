@@ -26,8 +26,8 @@
         </button>
         
         <model-viewer
-            src="modelo3d/modelo.glb"
-            ios-src="modelo3d/modelo.usdz#allowsContentScaling=1"
+            src="https://websserver.github.io/modalviewer/modelo3d/modelo.glb"
+            ios-src="https://websserver.github.io/modalviewer/modelo3d/modelo.usdz"
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
@@ -85,15 +85,8 @@
                         const anchor = document.createElement('a');
                         anchor.setAttribute('rel', 'ar');
                         anchor.appendChild(document.createElement('img'));
-                        anchor.setAttribute('href', 'modelo3d/modelo.usdz#allowsContentScaling=1');
-                        
-                        // Adicionar parâmetros para melhor compatibilidade
-                        const params = new URLSearchParams({
-                            allowsContentScaling: '1',
-                            canonicalWebPageURL: window.location.href
-                        });
-                        
-                        anchor.href = `${anchor.href}?${params.toString()}`;
+                        const modelUrl = 'https://websserver.github.io/modalviewer/modelo3d/modelo.usdz';
+                        anchor.setAttribute('href', modelUrl);
                         anchor.click();
                     } catch (error) {
                         console.error('Erro ao abrir AR no iOS:', error);
