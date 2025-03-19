@@ -245,61 +245,11 @@
                 arButtonAndroid.style.display = 'none';
                 arPromptText.textContent = 'Toque no botão para iniciar AR';
                 
-                // Remover lista de características da página inicial
-                const iosFeatures = document.getElementById('ios-features');
-                if (iosFeatures) {
-                    iosFeatures.remove();
-                }
-                
                 arButtonIOS.addEventListener('click', function() {
+                    // Obter modelo atual e abrir AR diretamente
                     const activeButton = document.querySelector('.model-button.active');
                     const modelName = activeButton.getAttribute('data-model');
-                    
-                    // Criar e adicionar a lista de características ao body
-                    const featuresHTML = `
-                        <div id="ios-features" class="ios-features" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 90%; max-width: 400px; background: rgba(255, 255, 255, 0.95);">
-                            <h3>Características do Produto:</h3>
-                            <div class="feature-item">
-                                <div class="feature-icon">📱</div>
-                                <div class="feature-text">
-                                    <strong>Tela OLED</strong>
-                                    <p>Tela OLED de alta resolução que mostra o status do dispositivo, nível de bateria e configurações.</p>
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">🔋</div>
-                                <div class="feature-text">
-                                    <strong>Bateria</strong>
-                                    <p>Bateria de longa duração que permite várias sessões de uso. Recarregável via USB-C.</p>
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">🔥</div>
-                                <div class="feature-text">
-                                    <strong>Câmara de Aquecimento</strong>
-                                    <p>Tecnologia de aquecimento avançada que garante uma experiência consistente.</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    document.body.insertAdjacentHTML('beforeend', featuresHTML);
-                    
-                    // Criar link AR e iniciar experiência
-                    const anchor = document.createElement('a');
-                    anchor.setAttribute('rel', 'ar');
-                    const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
-                    anchor.setAttribute('href', modelUrl);
-                    
-                    // Mostrar características após um pequeno delay
-                    setTimeout(() => {
-                        const features = document.getElementById('ios-features');
-                        if (features) {
-                            features.style.display = 'block';
-                        }
-                    }, 2000);
-                    
-                    anchor.click();
+                    window.location.href = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
                 });
             } else if (isAndroid) {
                 arButtonAndroid.style.display = 'block';
