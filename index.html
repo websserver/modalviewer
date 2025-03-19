@@ -42,6 +42,16 @@
             <button class="model-button" data-model="iprimeaqua_3">IQOS ILUMA PRIME</button>
         </div>
 
+        <!-- Botões AR -->
+        <div class="ar-buttons">
+            <button id="ar-button-android" class="ar-button" style="display: none;">
+                Experiência com Realidade Aumentada
+            </button>
+            <button id="ar-button-ios" class="ar-button" style="display: none;">
+                Experiência com Realidade Aumentada
+            </button>
+        </div>
+
         <!-- Visualizador 3D -->
         <model-viewer
             id="model-viewer"
@@ -137,6 +147,21 @@
         document.addEventListener('DOMContentLoaded', function() {
             const modelViewer = document.querySelector('#model-viewer');
             const modelButtons = document.querySelectorAll('.model-button');
+            const arButtonAndroid = document.getElementById('ar-button-android');
+            const arButtonIOS = document.getElementById('ar-button-ios');
+            
+            // Detectar dispositivo
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isAndroid = /Android/i.test(navigator.userAgent);
+
+            // Configurar botões AR baseado no dispositivo
+            if (isIOS) {
+                arButtonIOS.style.display = 'block';
+                arButtonAndroid.style.display = 'none';
+            } else if (isAndroid) {
+                arButtonAndroid.style.display = 'block';
+                arButtonIOS.style.display = 'none';
+            }
             
             // Configurar seletor de modelos
             modelButtons.forEach(button => {
@@ -150,6 +175,19 @@
                     const modelName = button.getAttribute('data-model');
                     modelViewer.src = `modelo3d/${modelName}.glb`;
                     modelViewer.iosSrc = `modelo3d/${modelName}.usdz`;
+                    
+                    // Mostrar botão AR apropriado
+                    if (isIOS) {
+                        arButtonIOS.style.display = 'block';
+                        arButtonIOS.onclick = () => {
+                            window.location.href = `modelo3d/${modelName}.usdz`;
+                        };
+                    } else if (isAndroid) {
+                        arButtonAndroid.style.display = 'block';
+                        arButtonAndroid.onclick = () => {
+                            modelViewer.activateAR();
+                        };
+                    }
                     
                     // Resetar câmera
                     modelViewer.cameraOrbit = '0deg 75deg 105%';
