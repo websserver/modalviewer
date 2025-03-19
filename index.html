@@ -247,19 +247,17 @@
                 
                 // Usar a mesma experiência AR do Android no iOS
                 arButtonIOS.addEventListener('click', function() {
-                    try {
-                        modelViewer.activateAR();
-                    } catch (error) {
-                        console.error('Erro ao abrir AR:', error);
-                        // Fallback para Quick Look se o AR nativo falhar
-                        const anchor = document.createElement('a');
-                        anchor.setAttribute('rel', 'ar');
-                        const activeButton = document.querySelector('.model-button.active');
-                        const modelName = activeButton.getAttribute('data-model');
-                        const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
-                        anchor.setAttribute('href', modelUrl);
-                        anchor.click();
-                    }
+                    const iosFeatures = document.getElementById('ios-features');
+                    iosFeatures.style.display = 'block';
+                    
+                    // Criar link AR
+                    const anchor = document.createElement('a');
+                    anchor.setAttribute('rel', 'ar');
+                    const activeButton = document.querySelector('.model-button.active');
+                    const modelName = activeButton.getAttribute('data-model');
+                    const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
+                    anchor.setAttribute('href', modelUrl);
+                    anchor.click();
                 });
             } else if (isAndroid) {
                 arButtonAndroid.style.display = 'block';
@@ -304,5 +302,31 @@
             }
         });
     </script>
+
+    <!-- Lista de características para iOS -->
+    <div id="ios-features" class="ios-features" style="display: none;">
+        <h3>Características do Produto:</h3>
+        <div class="feature-item">
+            <div class="feature-icon">📱</div>
+            <div class="feature-text">
+                <strong>Tela OLED</strong>
+                <p>Tela OLED de alta resolução que mostra o status do dispositivo, nível de bateria e configurações.</p>
+            </div>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">🔋</div>
+            <div class="feature-text">
+                <strong>Bateria</strong>
+                <p>Bateria de longa duração que permite várias sessões de uso. Recarregável via USB-C.</p>
+            </div>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">🔥</div>
+            <div class="feature-text">
+                <strong>Câmara de Aquecimento</strong>
+                <p>Tecnologia de aquecimento avançada que garante uma experiência consistente.</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html> 
