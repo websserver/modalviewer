@@ -484,34 +484,34 @@ model-viewer[ar-status="not-presenting"] .ar-prompt {
 
 /* Estilos para hotspots em AR */
 model-viewer[ar-status="session-started"] .hotspot {
-    transform: scale(0.6);
+    transform: scale(0.4);
 }
 
 model-viewer[ar-status="session-started"] .hotspot-dot {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
 }
 
 model-viewer[ar-status="session-started"] .hotspot-label {
-    font-size: 10px;
-    padding: 4px 8px;
-    min-width: 60px;
+    font-size: 9px;
+    padding: 3px 6px;
+    min-width: 50px;
 }
 
 /* Ajuste adicional para Android */
 @media screen and (max-width: 768px) {
     model-viewer[ar-status="session-started"] .hotspot {
-        transform: scale(0.5);
+        transform: scale(0.3);
     }
 
     model-viewer[ar-status="session-started"] .hotspot-dot {
-        width: 6px;
-        height: 6px;
+        width: 4px;
+        height: 4px;
     }
 
     model-viewer[ar-status="session-started"] .hotspot-label {
-        font-size: 8px;
-        padding: 3px 6px;
-        min-width: 50px;
+        font-size: 7px;
+        padding: 2px 4px;
+        min-width: 40px;
     }
 } 
