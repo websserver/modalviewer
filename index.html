@@ -15,6 +15,11 @@
     <div class="container">
         <h1>Visualizador 3D em AR</h1>
         
+        <!-- Mensagem de erro -->
+        <div id="error-message" class="error-message" style="display: none;">
+            <p>Ocorreu um erro ao carregar o modelo. Por favor, tente novamente.</p>
+        </div>
+        
         <!-- Botão AR Personalizado para iOS -->
         <button id="ar-button-ios" class="ar-button" style="display: none;">
             Abrir em AR (iOS)
@@ -22,7 +27,7 @@
         
         <model-viewer
             src="modelo3d/modelo.glb"
-            ios-src="modelo3d/modelo.usdz"
+            ios-src="modelo3d/modelo.usdz#allowsContentScaling=1"
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
@@ -34,6 +39,7 @@
             interaction-prompt="none"
             ar-placement="floor"
             ar-scale="fixed"
+            loading="eager"
             style="width: 100%; height: 70vh; background-color: #ffffff;">
 
             <button slot="ar-button" id="ar-button" class="ar-button">
@@ -42,6 +48,11 @@
 
             <div class="progress-bar hide" slot="progress-bar">
                 <div class="update-bar"></div>
+            </div>
+
+            <!-- Dicas de uso -->
+            <div class="ar-prompt">
+                <p id="ar-prompt-text">Carregando modelo...</p>
             </div>
         </model-viewer>
 
@@ -58,6 +69,8 @@
             const modelViewer = document.querySelector('model-viewer');
             const arButton = document.getElementById('ar-button');
             const arButtonIOS = document.getElementById('ar-button-ios');
+            const errorMessage = document.getElementById('error-message');
+            const arPromptText = document.getElementById('ar-prompt-text');
             
             // Detectar iOS
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -65,29 +78,59 @@
             if (isIOS) {
                 // Configurar botão AR para iOS
                 arButtonIOS.style.display = 'block';
+                arPromptText.textContent = 'Toque no botão azul para iniciar AR no iOS';
+                
                 arButtonIOS.addEventListener('click', function() {
-                    const anchor = document.createElement('a');
-                    anchor.setAttribute('rel', 'ar');
-                    anchor.appendChild(document.createElement('img'));
-                    anchor.setAttribute('href', 'modelo3d/modelo.usdz');
-                    anchor.click();
+                    try {
+                        const anchor = document.createElement('a');
+                        anchor.setAttribute('rel', 'ar');
+                        anchor.appendChild(document.createElement('img'));
+                        anchor.setAttribute('href', 'modelo3d/modelo.usdz#allowsContentScaling=1');
+                        
+                        // Adicionar parâmetros para melhor compatibilidade
+                        const params = new URLSearchParams({
+                            allowsContentScaling: '1',
+                            canonicalWebPageURL: window.location.href
+                        });
+                        
+                        anchor.href = `${anchor.href}?${params.toString()}`;
+                        anchor.click();
+                    } catch (error) {
+                        console.error('Erro ao abrir AR no iOS:', error);
+                        errorMessage.style.display = 'block';
+                        errorMessage.querySelector('p').textContent = 
+                            'Erro ao abrir AR no iOS. Certifique-se de estar usando Safari.';
+                    }
                 });
+            } else {
+                arPromptText.textContent = 'Toque no botão verde para iniciar AR';
             }
 
             // Verificar suporte a AR
             if (modelViewer) {
                 modelViewer.addEventListener('ar-status', (event) => {
                     if (event.detail.status === 'failed') {
-                        console.error('Falha ao iniciar AR');
+                        console.error('Falha ao iniciar AR:', event.detail.error);
+                        errorMessage.style.display = 'block';
+                        errorMessage.querySelector('p').textContent = 
+                            'Não foi possível iniciar o AR. Verifique se seu dispositivo suporta AR.';
                     }
                 });
 
                 modelViewer.addEventListener('load', () => {
                     console.log('Modelo carregado com sucesso');
+                    arPromptText.textContent = isIOS ? 
+                        'Toque no botão azul para iniciar AR no iOS' : 
+                        'Toque no botão verde para iniciar AR';
                 });
 
                 modelViewer.addEventListener('error', (error) => {
                     console.error('Erro ao carregar modelo:', error);
+                    errorMessage.style.display = 'block';
+                    if (isIOS) {
+                        errorMessage.querySelector('p').textContent = 
+                            'Erro ao carregar o modelo 3D. Verifique sua conexão e tente novamente.';
+                    }
                 });
             }
         });
