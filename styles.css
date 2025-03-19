@@ -206,4 +206,125 @@ model-viewer[ar-status="not-presenting"] .ar-prompt {
         width: 100%;
         margin: 10px auto;
     }
+}
+
+/* Estilos para hotspots */
+.hotspot {
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    border: none;
+    background: none;
+    position: relative;
+    cursor: pointer;
+}
+
+.hotspot-dot {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px white;
+    animation: pulse 2s infinite;
+}
+
+.hotspot-label {
+    position: absolute;
+    width: max-content;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 100%;
+    margin-bottom: 6px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.hotspot:hover .hotspot-label {
+    opacity: 1;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+    }
+}
+
+/* Painel de informações dos hotspots */
+.hotspot-info {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+    width: 400px;
+    z-index: 1000;
+    animation: slideUp 0.3s ease;
+}
+
+.hotspot-info h2 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.hotspot-info p {
+    margin: 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.close-button:hover {
+    background-color: #f5f5f5;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
 } 

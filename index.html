@@ -19,6 +19,13 @@
         <div id="error-message" class="error-message" style="display: none;">
             <p>Ocorreu um erro ao carregar o modelo. Por favor, tente novamente.</p>
         </div>
+
+        <!-- Painel de informações dos hotspots -->
+        <div id="hotspot-info" class="hotspot-info" style="display: none;">
+            <button class="close-button" onclick="closeHotspotInfo()">×</button>
+            <h2 id="hotspot-title">Título</h2>
+            <p id="hotspot-description">Descrição</p>
+        </div>
         
         <!-- Botão AR Personalizado para iOS -->
         <button id="ar-button-ios" class="ar-button" style="display: none;">
@@ -41,6 +48,22 @@
             ar-scale="fixed"
             loading="eager"
             style="width: 100%; height: 70vh; background-color: #ffffff;">
+
+            <!-- Hotspots -->
+            <button class="hotspot" slot="hotspot-1" data-position="1 1.5 1" data-normal="1 0 0" data-visibility-attribute="visible">
+                <div class="hotspot-dot"></div>
+                <div class="hotspot-label">Tela OLED</div>
+            </button>
+
+            <button class="hotspot" slot="hotspot-2" data-position="-1 1 1" data-normal="-1 0 0" data-visibility-attribute="visible">
+                <div class="hotspot-dot"></div>
+                <div class="hotspot-label">Bateria</div>
+            </button>
+
+            <button class="hotspot" slot="hotspot-3" data-position="0 2 1" data-normal="0 1 0" data-visibility-attribute="visible">
+                <div class="hotspot-dot"></div>
+                <div class="hotspot-label">Câmara de Aquecimento</div>
+            </button>
 
             <button slot="ar-button" id="ar-button" class="ar-button">
                 Ver em AR
@@ -65,12 +88,50 @@
     </div>
 
     <script>
+        // Dados dos hotspots
+        const hotspotData = {
+            'hotspot-1': {
+                title: 'Tela OLED',
+                description: 'Tela OLED de alta resolução que mostra o status do dispositivo, nível de bateria e configurações.'
+            },
+            'hotspot-2': {
+                title: 'Bateria',
+                description: 'Bateria de longa duração que permite várias sessões de uso. Recarregável via USB-C.'
+            },
+            'hotspot-3': {
+                title: 'Câmara de Aquecimento',
+                description: 'Tecnologia de aquecimento avançada que garante uma experiência consistente.'
+            }
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             const modelViewer = document.querySelector('model-viewer');
             const arButton = document.getElementById('ar-button');
             const arButtonIOS = document.getElementById('ar-button-ios');
             const errorMessage = document.getElementById('error-message');
             const arPromptText = document.getElementById('ar-prompt-text');
+            const hotspotInfo = document.getElementById('hotspot-info');
+            const hotspotTitle = document.getElementById('hotspot-title');
+            const hotspotDescription = document.getElementById('hotspot-description');
+            
+            // Configurar hotspots
+            const hotspots = document.querySelectorAll('.hotspot');
+            hotspots.forEach(hotspot => {
+                hotspot.addEventListener('click', () => {
+                    const slotName = hotspot.getAttribute('slot');
+                    const data = hotspotData[slotName];
+                    if (data) {
+                        hotspotTitle.textContent = data.title;
+                        hotspotDescription.textContent = data.description;
+                        hotspotInfo.style.display = 'block';
+                    }
+                });
+            });
+
+            // Fechar painel de informações
+            window.closeHotspotInfo = function() {
+                hotspotInfo.style.display = 'none';
+            };
             
             // Detectar iOS
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
