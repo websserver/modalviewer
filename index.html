@@ -312,6 +312,47 @@
                     }
                 });
             }
+
+            // Configurar botões de controle
+            const rotateLeftBtn = document.getElementById('rotate-left');
+            const rotateRightBtn = document.getElementById('rotate-right');
+            const zoomInBtn = document.getElementById('zoom-in');
+            const zoomOutBtn = document.getElementById('zoom-out');
+
+            // Variáveis para controle de rotação e zoom
+            let currentOrbitY = 0;
+            let currentZoom = 105;
+            const orbitDelta = 10;
+            const zoomDelta = 10;
+
+            // Função para atualizar a órbita da câmera
+            function updateCameraOrbit() {
+                modelViewer.cameraOrbit = `${currentOrbitY}deg 75deg ${currentZoom}%`;
+            }
+
+            // Rotação para esquerda
+            rotateLeftBtn.addEventListener('click', () => {
+                currentOrbitY = (currentOrbitY - orbitDelta) % 360;
+                updateCameraOrbit();
+            });
+
+            // Rotação para direita
+            rotateRightBtn.addEventListener('click', () => {
+                currentOrbitY = (currentOrbitY + orbitDelta) % 360;
+                updateCameraOrbit();
+            });
+
+            // Zoom in
+            zoomInBtn.addEventListener('click', () => {
+                currentZoom = Math.max(50, currentZoom - zoomDelta);
+                updateCameraOrbit();
+            });
+
+            // Zoom out
+            zoomOutBtn.addEventListener('click', () => {
+                currentZoom = Math.min(200, currentZoom + zoomDelta);
+                updateCameraOrbit();
+            });
         });
     </script>
 </body>
