@@ -249,12 +249,11 @@
                     try {
                         const anchor = document.createElement('a');
                         anchor.setAttribute('rel', 'ar');
-                        anchor.appendChild(document.createElement('img'));
                         
-                        // Obter o modelo atual selecionado
+                        // Adicionar metadados para anotações no USDZ
                         const activeButton = document.querySelector('.model-button.active');
                         const modelName = activeButton.getAttribute('data-model');
-                        const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz`;
+                        const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.usdz#custom=allowsContentScaling=1&applePayButtonType=plain&checkoutTitle=My%20Custom%20Store&checkoutSubtitle=My%20Custom%20Store&price=$1.99&callToAction=Add%20to%20Cart&canonicalWebPageURL=https://websserver.github.io/modalviewer/&annotations=[{"type":"label","text":"Tela OLED","position":[0.1,0.2,0.1]},{"type":"label","text":"Bateria","position":[-0.1,0.15,0]},{"type":"label","text":"Câmara de Aquecimento","position":[0,0.25,0.1]}]`;
                         
                         anchor.setAttribute('href', modelUrl);
                         anchor.click();
