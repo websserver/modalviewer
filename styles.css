@@ -65,29 +65,39 @@ model-viewer {
     margin-bottom: 30px;
 }
 
-/* Controles */
+/* Botões de controle */
 .controls {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+    display: none; /* Por padrão, esconde os botões */
+    gap: 10px;
     margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Mostra os botões apenas em tablets e PCs (telas maiores que 768px) */
+@media screen and (min-width: 768px) {
+    .controls {
+        display: flex;
+    }
 }
 
 .controls button {
-    background-color: #ffffff;
-    border: 2px solid #00BFB3;
-    color: #00BFB3;
     padding: 10px 20px;
-    border-radius: 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 .controls button:hover {
-    background-color: #00BFB3;
-    color: white;
+    background-color: #45a049;
+}
+
+.controls button:active {
+    background-color: #3d8b40;
 }
 
 /* Botões AR */
