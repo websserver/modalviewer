@@ -15,6 +15,13 @@
     <div class="container">
         <h1>Visualizador 3D em AR</h1>
         
+        <!-- Seletor de Modelos -->
+        <div class="model-selector">
+            <button class="model-button active" data-model="iprimeaqua_1">Modelo 1</button>
+            <button class="model-button" data-model="iprimeaqua_2">Modelo 2</button>
+            <button class="model-button" data-model="iprimeaqua_3">Modelo 3</button>
+        </div>
+        
         <!-- Mensagem de erro -->
         <div id="error-message" class="error-message" style="display: none;">
             <p>Ocorreu um erro ao carregar o modelo. Por favor, tente novamente.</p>
@@ -33,7 +40,8 @@
         </button>
         
         <model-viewer
-            src="https://websserver.github.io/modalviewer/modelo3d/modelo.glb"
+            id="model-viewer"
+            src="https://websserver.github.io/modalviewer/modelo3d/iprimeaqua_1.glb"
             ios-src="https://websserver.github.io/modalviewer/modelo3d/modelo.usdz"
             alt="Modelo 3D"
             ar
@@ -113,6 +121,26 @@
             const hotspotInfo = document.getElementById('hotspot-info');
             const hotspotTitle = document.getElementById('hotspot-title');
             const hotspotDescription = document.getElementById('hotspot-description');
+            
+            // Configurar seletor de modelos
+            const modelButtons = document.querySelectorAll('.model-button');
+            modelButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remover classe active de todos os botões
+                    modelButtons.forEach(btn => btn.classList.remove('active'));
+                    // Adicionar classe active ao botão clicado
+                    button.classList.add('active');
+                    
+                    // Atualizar modelo
+                    const modelName = button.getAttribute('data-model');
+                    const modelUrl = `https://websserver.github.io/modalviewer/modelo3d/${modelName}.glb`;
+                    modelViewer.src = modelUrl;
+                    
+                    // Resetar câmera
+                    modelViewer.cameraOrbit = '0deg 75deg 105%';
+                    modelViewer.fieldOfView = '30deg';
+                });
+            });
             
             // Configurar hotspots
             const hotspots = document.querySelectorAll('.hotspot');
