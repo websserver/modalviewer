@@ -50,17 +50,17 @@
             style="width: 100%; height: 70vh; background-color: #ffffff;">
 
             <!-- Hotspots -->
-            <button class="hotspot" slot="hotspot-1" data-position="1 1.5 1" data-normal="1 0 0" data-visibility-attribute="visible">
+            <button class="hotspot" slot="hotspot-1" data-position="0.1 0.2 0.1" data-normal="0 1 0" data-visibility-attribute="visible">
                 <div class="hotspot-dot"></div>
                 <div class="hotspot-label">Tela OLED</div>
             </button>
 
-            <button class="hotspot" slot="hotspot-2" data-position="-1 1 1" data-normal="-1 0 0" data-visibility-attribute="visible">
+            <button class="hotspot" slot="hotspot-2" data-position="-0.1 0.15 0" data-normal="0 1 0" data-visibility-attribute="visible">
                 <div class="hotspot-dot"></div>
                 <div class="hotspot-label">Bateria</div>
             </button>
 
-            <button class="hotspot" slot="hotspot-3" data-position="0 2 1" data-normal="0 1 0" data-visibility-attribute="visible">
+            <button class="hotspot" slot="hotspot-3" data-position="0 0.25 0.1" data-normal="0 1 0" data-visibility-attribute="visible">
                 <div class="hotspot-dot"></div>
                 <div class="hotspot-label">Câmara de Aquecimento</div>
             </button>
@@ -126,6 +126,14 @@
                         hotspotInfo.style.display = 'block';
                     }
                 });
+            });
+
+            // Adicionar evento para mostrar coordenadas do clique
+            modelViewer.addEventListener('click', (event) => {
+                const hit = modelViewer.positionAndNormalFromPoint(event.clientX, event.clientY);
+                if (hit) {
+                    console.log('Posição do clique:', hit.position);
+                }
             });
 
             // Fechar painel de informações

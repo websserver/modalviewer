@@ -33,6 +33,16 @@ model-viewer {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+model-viewer::part(default) {
+    z-index: 1;
+}
+
+model-viewer > * {
+    z-index: 999;
 }
 
 .ar-button {
@@ -218,6 +228,10 @@ model-viewer[ar-status="not-presenting"] .ar-prompt {
     background: none;
     position: relative;
     cursor: pointer;
+    z-index: 999;
+    pointer-events: auto;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
 }
 
 .hotspot-dot {
@@ -231,6 +245,7 @@ model-viewer[ar-status="not-presenting"] .ar-prompt {
     border-radius: 50%;
     box-shadow: 0 0 0 3px white;
     animation: pulse 2s infinite;
+    z-index: 1000;
 }
 
 .hotspot-label {
@@ -249,6 +264,7 @@ model-viewer[ar-status="not-presenting"] .ar-prompt {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s;
+    z-index: 1001;
 }
 
 .hotspot:hover .hotspot-label {
@@ -279,7 +295,7 @@ model-viewer[ar-status="not-presenting"] .ar-prompt {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 90%;
     width: 400px;
-    z-index: 1000;
+    z-index: 1002;
     animation: slideUp 0.3s ease;
 }
 
@@ -312,6 +328,7 @@ model-viewer[ar-status="not-presenting"] .ar-prompt {
     justify-content: center;
     border-radius: 50%;
     transition: background-color 0.3s;
+    z-index: 1003;
 }
 
 .close-button:hover {
