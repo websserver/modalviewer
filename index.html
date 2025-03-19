@@ -34,10 +34,18 @@
             <p id="hotspot-description">Descrição</p>
         </div>
         
-        <!-- Botão AR Personalizado para iOS -->
-        <button id="ar-button-ios" class="ar-button" style="display: none;">
-            Abrir em AR (iOS)
-        </button>
+        <!-- Botões AR -->
+        <div class="ar-buttons">
+            <!-- Botão AR para Android -->
+            <button id="ar-button-android" class="ar-button" style="display: none;">
+                Ver em AR
+            </button>
+            
+            <!-- Botão AR para iOS -->
+            <button id="ar-button-ios" class="ar-button" style="display: none;">
+                Abrir em AR (iOS)
+            </button>
+        </div>
         
         <model-viewer
             id="model-viewer"
@@ -55,6 +63,7 @@
             ar-placement="floor"
             ar-scale="fixed"
             loading="eager"
+            ar-status="not-presenting"
             style="width: 100%; height: 70vh; background-color: #ffffff;">
 
             <!-- Hotspots -->
@@ -73,9 +82,10 @@
                 <div class="hotspot-label">Câmara de Aquecimento</div>
             </button>
 
-            <button slot="ar-button" id="ar-button" class="ar-button">
-                Ver em AR
-            </button>
+            <!-- Aviso AR -->
+            <div class="ar-placement-prompt" slot="ar-prompt">
+                Pouse o seu IQOS clicando no ecrã
+            </div>
 
             <div class="progress-bar hide" slot="progress-bar">
                 <div class="update-bar"></div>
@@ -114,7 +124,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const modelViewer = document.querySelector('model-viewer');
-            const arButton = document.getElementById('ar-button');
+            const arButtonAndroid = document.getElementById('ar-button-android');
             const arButtonIOS = document.getElementById('ar-button-ios');
             const errorMessage = document.getElementById('error-message');
             const arPromptText = document.getElementById('ar-prompt-text');
@@ -171,12 +181,14 @@
                 hotspotInfo.style.display = 'none';
             };
             
-            // Detectar iOS
+            // Detectar dispositivo
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isAndroid = /Android/i.test(navigator.userAgent);
             
+            // Configurar botões AR baseado no dispositivo
             if (isIOS) {
-                // Configurar botão AR para iOS
                 arButtonIOS.style.display = 'block';
+                arButtonAndroid.style.display = 'none';
                 arPromptText.textContent = 'Toque no botão azul para iniciar AR no iOS';
                 
                 arButtonIOS.addEventListener('click', function() {
@@ -199,8 +211,15 @@
                             'Erro ao abrir AR no iOS. Certifique-se de estar usando Safari.';
                     }
                 });
-            } else {
+            } else if (isAndroid) {
+                arButtonAndroid.style.display = 'block';
+                arButtonIOS.style.display = 'none';
                 arPromptText.textContent = 'Toque no botão verde para iniciar AR';
+                
+                // Configurar botão AR para Android
+                arButtonAndroid.addEventListener('click', function() {
+                    modelViewer.activateAR();
+                });
             }
 
             // Verificar suporte a AR
@@ -211,14 +230,18 @@
                         errorMessage.style.display = 'block';
                         errorMessage.querySelector('p').textContent = 
                             'Não foi possível iniciar o AR. Verifique se seu dispositivo suporta AR.';
+                    } else if (event.detail.status === 'session-started') {
+                        console.log('Sessão AR iniciada');
                     }
                 });
 
                 modelViewer.addEventListener('load', () => {
                     console.log('Modelo carregado com sucesso');
-                    arPromptText.textContent = isIOS ? 
-                        'Toque no botão azul para iniciar AR no iOS' : 
-                        'Toque no botão verde para iniciar AR';
+                    if (isIOS) {
+                        arPromptText.textContent = 'Toque no botão azul para iniciar AR no iOS';
+                    } else if (isAndroid) {
+                        arPromptText.textContent = 'Toque no botão verde para iniciar AR';
+                    }
                 });
 
                 modelViewer.addEventListener('error', (error) => {
