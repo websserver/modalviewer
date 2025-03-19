@@ -18,7 +18,7 @@
             <h1 class="hero-title">IQOS ILUMA i PRIME</h1>
             <div class="hero-model">
                 <model-viewer 
-                    src="modelo3d/iprimeaqua_1.glb"
+                    src="modelo3d/modelo.glb"
                     camera-controls
                     auto-rotate
                     rotation-per-second="30deg"
@@ -29,14 +29,14 @@
                 </model-viewer>
             </div>
             <p class="hero-description">A inovação atinge um novo patamar</p>
-            <button class="cta-button">EXPERIÊNCIA IMERSIVA</button>
+            <button class="cta-button" onclick="scrollToSelector()">EXPERIÊNCIA IMERSIVA</button>
         </div>
     </header>
     <div class="container">
-        <h2>Escolhe a maquina e vive uma experiência imersiva</h2>
+        <h2 class="selector-title">ESCOLHE A MÁQUINA E VIVE UMA EXPERIÊNCIA IMERSIVA</h2>
         
         <!-- Seletor de Modelos -->
-        <div class="model-selector">
+        <div id="model-selector" class="model-selector">
             <button class="model-button active" data-model="iprimeaqua_1">IQOS ILUMA</button>
             <button class="model-button" data-model="iprimeaqua_2">IQOS ILUMA ONE</button>
             <button class="model-button" data-model="iprimeaqua_3">IQOS ILUMA PRIME</button>
@@ -126,6 +126,14 @@
     </div>
 
     <script>
+        // Função para scroll suave
+        function scrollToSelector() {
+            document.getElementById('model-selector').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const modelViewer = document.querySelector('#model-viewer');
             const modelButtons = document.querySelectorAll('.model-button');

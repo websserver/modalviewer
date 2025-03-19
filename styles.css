@@ -610,4 +610,13 @@ model-viewer[ar-status="session-started"] .hotspot-label {
     .hero-description {
         font-size: 16px;
     }
+}
+
+.selector-title {
+    text-align: center;
+    padding-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
 } 
