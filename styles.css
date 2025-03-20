@@ -585,6 +585,14 @@ model-viewer[ar-status="session-started"] .hotspot-label {
     background-color: transparent;
 }
 
+.hero-model model-viewer::part(default-progress-bar) {
+    display: none !important;
+}
+
+model-viewer::part(default-progress-bar) {
+    display: none !important;
+}
+
 .hero-description {
     color: white;
     font-size: 18px;
