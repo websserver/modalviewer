@@ -60,9 +60,10 @@
         <model-viewer
             id="model-viewer"
             src="modelo3d/iprimeaqua_1.glb"
+            ios-src="modelo3d/iprimeaqua_1.usdz"
             alt="Modelo 3D"
             ar
-            ar-modes="webxr scene-viewer"
+            ar-modes="scene-viewer webxr quick-look"
             ar-scale="fixed"
             ar-placement="floor"
             camera-controls
@@ -191,7 +192,8 @@
             // Função para ativar AR no iOS
             async function activateARiOS() {
                 try {
-                    await modelViewer.activateAR();
+                    const modelName = modelViewer.src.split('/').pop().split('.')[0];
+                    window.location.href = `modelo3d/${modelName}.usdz`;
                 } catch (error) {
                     console.error('Erro ao ativar AR no iOS:', error);
                 }
@@ -225,11 +227,14 @@
                     } else {
                         modelViewer.src = `modelo3d/${modelName}.glb`;
                     }
+                    modelViewer.iosSrc = `modelo3d/${modelName}.usdz`;
                     
                     // Mostrar botão AR apropriado
                     if (isIOS) {
                         arButtonIOS.style.display = 'block';
-                        arButtonIOS.onclick = activateARiOS;
+                        arButtonIOS.onclick = () => {
+                            window.location.href = `modelo3d/${modelName}.usdz`;
+                        };
                     } else if (isAndroid) {
                         arButtonAndroid.style.display = 'block';
                         arButtonAndroid.onclick = activateARAndroid;
