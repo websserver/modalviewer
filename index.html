@@ -63,8 +63,9 @@
             ios-src="modelo3d/iprimeaqua_1.usdz"
             alt="Modelo 3D"
             ar
-            ar-modes="scene-viewer webxr quick-look"
+            ar-modes="webxr scene-viewer quick-look"
             ar-scale="fixed"
+            ar-placement="floor"
             camera-controls
             auto-rotate
             shadow-intensity="1"
@@ -72,7 +73,6 @@
             exposure="1"
             environment-image="neutral"
             interaction-prompt="none"
-            ar-placement="floor"
             scale="2 2 2"
             min-camera-orbit="auto auto 5%"
             max-camera-orbit="auto auto 100%"
@@ -189,10 +189,24 @@
                 }
             }
 
+            // Função para ativar AR no iOS
+            async function activateARiOS() {
+                try {
+                    await modelViewer.activateAR();
+                } catch (error) {
+                    console.error('Erro ao ativar AR no iOS:', error);
+                    // Fallback para Quick Look se o AR nativo falhar
+                    const modelName = modelViewer.src.split('/').pop().split('.')[0];
+                    window.location.href = `modelo3d/${modelName}.usdz`;
+                }
+            }
+
             // Configurar botões AR baseado no dispositivo
             if (isIOS) {
                 arButtonIOS.style.display = 'block';
                 arButtonAndroid.style.display = 'none';
+                // Adicionar evento de clique para iOS
+                arButtonIOS.onclick = activateARiOS;
             } else if (isAndroid) {
                 arButtonAndroid.style.display = 'block';
                 arButtonIOS.style.display = 'none';
@@ -220,9 +234,7 @@
                     // Mostrar botão AR apropriado
                     if (isIOS) {
                         arButtonIOS.style.display = 'block';
-                        arButtonIOS.onclick = () => {
-                            window.location.href = `modelo3d/${modelName}.usdz`;
-                        };
+                        arButtonIOS.onclick = activateARiOS;
                     } else if (isAndroid) {
                         arButtonAndroid.style.display = 'block';
                         arButtonAndroid.onclick = activateARAndroid;
