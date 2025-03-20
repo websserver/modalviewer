@@ -226,6 +226,7 @@
             function checkAge() {
                 const month = monthSelect.value;
                 const year = yearSelect.value;
+                console.log('Verificando idade:', { month, year });
                 
                 if (month && year) {
                     const birthDate = new Date(year, month - 1);
@@ -238,6 +239,7 @@
                         age--;
                     }
                     
+                    console.log('Idade calculada:', age);
                     confirmBtn.disabled = age < 18;
                 } else {
                     confirmBtn.disabled = true;
@@ -248,12 +250,16 @@
             yearSelect.addEventListener('change', checkAge);
 
             // Verificar se já foi verificado antes
-            if (localStorage.getItem('ageVerified')) {
+            const ageVerified = localStorage.getItem('ageVerified');
+            console.log('Status de verificação:', ageVerified);
+            
+            if (ageVerified === 'true') {
                 modal.style.display = 'none';
             }
 
             // Confirmar idade
-            confirmBtn.addEventListener('click', () => {
+            confirmBtn.addEventListener('click', function() {
+                console.log('Botão confirmar clicado');
                 localStorage.setItem('ageVerified', 'true');
                 modal.style.display = 'none';
             });
