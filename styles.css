@@ -90,12 +90,14 @@ model-viewer {
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    color: #00BFB3;
 }
 
 .controls button:hover {
     background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transform: scale(1.1);
+    color: #009B8F;
 }
 
 .controls button:active {
