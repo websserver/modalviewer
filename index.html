@@ -177,34 +177,56 @@
         function resetInactivityTimer() {
             clearTimeout(inactivityTimer);
             inactivityTimer = setTimeout(() => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-                // Resetar o estado dos botões
-                document.querySelectorAll('.model-button').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                document.querySelector('.model-button[data-model="iprimeaqua_1"]').classList.add('active');
-                // Resetar o modelo para o inicial
+                // Verificar se está em modo AR
                 const modelViewer = document.querySelector('#model-viewer');
-                modelViewer.src = 'modelo3d/iprimeaqua_1.glb';
-                modelViewer.iosSrc = 'modelo3d/iprimeaqua_1.usdz';
-                modelViewer.cameraOrbit = '0deg 75deg 105%';
-                // Esconder botões AR
-                document.getElementById('ar-button-android').style.display = 'none';
-                document.getElementById('ar-button-ios').style.display = 'none';
+                if (modelViewer.isActivateARMode) {
+                    // Se estiver em AR, forçar retorno à página web
+                    window.location.reload();
+                } else {
+                    // Comportamento normal de reset
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    // Resetar o estado dos botões
+                    document.querySelectorAll('.model-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    document.querySelector('.model-button[data-model="iprimeaqua_1"]').classList.add('active');
+                    // Resetar o modelo para o inicial
+                    modelViewer.src = 'modelo3d/iprimeaqua_1.glb';
+                    modelViewer.iosSrc = 'modelo3d/iprimeaqua_1.usdz';
+                    modelViewer.cameraOrbit = '0deg 75deg 105%';
+                    // Esconder botões AR
+                    document.getElementById('ar-button-android').style.display = 'none';
+                    document.getElementById('ar-button-ios').style.display = 'none';
+                }
             }, TIMEOUT_DURATION);
         }
 
         // Eventos que resetam o timer de inatividade
-        const events = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart'];
+        const events = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart', 'touchmove'];
         events.forEach(event => {
             document.addEventListener(event, resetInactivityTimer);
         });
 
         // Iniciar o timer quando a página carregar
         document.addEventListener('DOMContentLoaded', resetInactivityTimer);
+
+        // Adicionar detecção de entrada/saída do modo AR
+        document.addEventListener('DOMContentLoaded', function() {
+            const modelViewer = document.querySelector('#model-viewer');
+            
+            modelViewer.addEventListener('ar-status', (event) => {
+                if (event.detail.status === 'session-started') {
+                    modelViewer.isActivateARMode = true;
+                    // Reiniciar timer quando AR é ativado
+                    resetInactivityTimer();
+                } else if (event.detail.status === 'not-presenting') {
+                    modelViewer.isActivateARMode = false;
+                }
+            });
+        });
 
         // Função para scroll suave
         function scrollToSelector() {
