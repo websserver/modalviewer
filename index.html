@@ -60,10 +60,9 @@
         <model-viewer
             id="model-viewer"
             src="modelo3d/iprimeaqua_1.glb"
-            ios-src="modelo3d/iprimeaqua_1.usdz"
             alt="Modelo 3D"
             ar
-            ar-modes="webxr scene-viewer quick-look"
+            ar-modes="webxr scene-viewer"
             ar-scale="fixed"
             ar-placement="floor"
             camera-controls
@@ -195,9 +194,6 @@
                     await modelViewer.activateAR();
                 } catch (error) {
                     console.error('Erro ao ativar AR no iOS:', error);
-                    // Fallback para Quick Look se o AR nativo falhar
-                    const modelName = modelViewer.src.split('/').pop().split('.')[0];
-                    window.location.href = `modelo3d/${modelName}.usdz`;
                 }
             }
 
@@ -229,7 +225,6 @@
                     } else {
                         modelViewer.src = `modelo3d/${modelName}.glb`;
                     }
-                    modelViewer.iosSrc = `modelo3d/${modelName}.usdz`;
                     
                     // Mostrar botão AR apropriado
                     if (isIOS) {
