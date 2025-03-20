@@ -163,7 +163,7 @@
 
     <footer class="footer">
         <p class="footer-warning">
-            Este produto não é isento de risco e contém nicotina, uma substância que cria dependência. Destinado apenas a fumadores adultos.
+            <b>ste produto não é isento de risco e contém nicotina, uma substância que cria dependência. Destinado apenas a fumadores adultos.</b>
         </p>
         <p class="footer-copyright">
             © 2025 Philip Morris Products SA. Todos os direitos reservados.
@@ -171,6 +171,41 @@
     </footer>
 
     <script>
+        let inactivityTimer;
+        const TIMEOUT_DURATION = 120000; // 2 minutos em milissegundos
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                // Resetar o estado dos botões
+                document.querySelectorAll('.model-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector('.model-button[data-model="iprimeaqua_1"]').classList.add('active');
+                // Resetar o modelo para o inicial
+                const modelViewer = document.querySelector('#model-viewer');
+                modelViewer.src = 'modelo3d/iprimeaqua_1.glb';
+                modelViewer.iosSrc = 'modelo3d/iprimeaqua_1.usdz';
+                modelViewer.cameraOrbit = '0deg 75deg 105%';
+                // Esconder botões AR
+                document.getElementById('ar-button-android').style.display = 'none';
+                document.getElementById('ar-button-ios').style.display = 'none';
+            }, TIMEOUT_DURATION);
+        }
+
+        // Eventos que resetam o timer de inatividade
+        const events = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart'];
+        events.forEach(event => {
+            document.addEventListener(event, resetInactivityTimer);
+        });
+
+        // Iniciar o timer quando a página carregar
+        document.addEventListener('DOMContentLoaded', resetInactivityTimer);
+
         // Função para scroll suave
         function scrollToSelector() {
             document.getElementById('model-selector').scrollIntoView({ 
