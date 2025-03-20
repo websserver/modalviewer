@@ -171,49 +171,6 @@
     </footer>
 
     <script>
-        let inactivityTimer;
-        const TIMEOUT_DURATION = 30000; // 30 segundos em milissegundos
-        let lastTouchTime = Date.now();
-
-        function resetInactivityTimer() {
-            clearTimeout(inactivityTimer);
-            lastTouchTime = Date.now();
-            
-            inactivityTimer = setTimeout(() => {
-                const currentTime = Date.now();
-                const timeSinceLastTouch = currentTime - lastTouchTime;
-                
-                // Se passou mais tempo que o timeout desde o último toque
-                if (timeSinceLastTouch >= TIMEOUT_DURATION) {
-                    window.location.reload();
-                }
-            }, TIMEOUT_DURATION);
-        }
-
-        // Eventos touch que resetam o timer
-        const touchEvents = ['touchstart', 'touchmove', 'touchend'];
-        touchEvents.forEach(event => {
-            document.addEventListener(event, resetInactivityTimer, { passive: true });
-        });
-
-        // Iniciar o timer quando a página carregar
-        document.addEventListener('DOMContentLoaded', resetInactivityTimer);
-
-        // Adicionar detecção de entrada/saída do modo AR
-        document.addEventListener('DOMContentLoaded', function() {
-            const modelViewer = document.querySelector('#model-viewer');
-            
-            modelViewer.addEventListener('ar-status', (event) => {
-                if (event.detail.status === 'session-started') {
-                    modelViewer.isActivateARMode = true;
-                    // Reiniciar timer quando AR é ativado
-                    resetInactivityTimer();
-                } else if (event.detail.status === 'not-presenting') {
-                    modelViewer.isActivateARMode = false;
-                }
-            });
-        });
-
         // Função para scroll suave
         function scrollToSelector() {
             document.getElementById('model-selector').scrollIntoView({ 
@@ -376,64 +333,6 @@
                 });
             });
         });
-
-        let arInactivityTimer;
-        const AR_TIMEOUT_DURATION = 30000; // 30 segundos em milissegundos
-        let lastARInteractionTime;
-        let isInARSession = false;
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const modelViewer = document.querySelector('#model-viewer');
-
-            // Monitorar início da sessão AR
-            modelViewer.addEventListener('ar-status', (event) => {
-                if (event.detail.status === 'session-started') {
-                    console.log('Sessão AR iniciada');
-                    isInARSession = true;
-                    lastARInteractionTime = Date.now();
-                    startARInactivityTimer();
-                } else if (event.detail.status === 'not-presenting') {
-                    console.log('Sessão AR finalizada');
-                    isInARSession = false;
-                    clearTimeout(arInactivityTimer);
-                }
-            });
-
-            // Monitorar interações durante a sessão AR
-            modelViewer.addEventListener('camera-change', () => {
-                if (isInARSession) {
-                    console.log('Interação AR detectada - camera-change');
-                    resetARInactivityTimer();
-                }
-            });
-
-            modelViewer.addEventListener('user-interaction', () => {
-                if (isInARSession) {
-                    console.log('Interação AR detectada - user-interaction');
-                    resetARInactivityTimer();
-                }
-            });
-        });
-
-        function startARInactivityTimer() {
-            console.log('Timer AR iniciado');
-            arInactivityTimer = setInterval(() => {
-                const currentTime = Date.now();
-                const timeSinceLastARInteraction = currentTime - lastARInteractionTime;
-                
-                console.log('Tempo desde última interação AR:', timeSinceLastARInteraction);
-                
-                if (timeSinceLastARInteraction >= AR_TIMEOUT_DURATION) {
-                    console.log('Timeout AR atingido - recarregando página');
-                    window.location.reload();
-                }
-            }, 1000); // Verificar a cada segundo
-        }
-
-        function resetARInactivityTimer() {
-            console.log('Timer AR resetado');
-            lastARInteractionTime = Date.now();
-        }
     </script>
 </body>
 </html> 
