@@ -26,6 +26,9 @@
                     shadow-intensity="1"
                     exposure="1.2"
                     loading-progress="manual"
+                    preload
+                    loading-mode="eager"
+                    draco-decoder-path="https://www.gstatic.com/draco/versioned/decoders/1.5.6/"
                     style="width: 100%; height: 60vh; background-color: transparent;">
                 </model-viewer>
             </div>
@@ -76,6 +79,9 @@
             camera-orbit="0deg 75deg 105%"
             loading="eager"
             loading-progress="none"
+            preload
+            loading-mode="eager"
+            draco-decoder-path="https://www.gstatic.com/draco/versioned/decoders/1.5.6/"
             style="width: 100%; height: 70vh; background-color: #ffffff;">
 
             <!-- Hotspots -->
@@ -141,6 +147,26 @@
             });
         }
 
+        // Pré-carregar modelos
+        const modelFiles = ['iprimeaqua_1', 'iprimeaqua_2', 'iprimeaqua_3'];
+        const preloadedModels = new Map();
+
+        async function preloadModels() {
+            for (const modelName of modelFiles) {
+                try {
+                    const response = await fetch(`modelo3d/${modelName}.glb`);
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    preloadedModels.set(modelName, url);
+                } catch (error) {
+                    console.error(`Erro ao pré-carregar modelo ${modelName}:`, error);
+                }
+            }
+        }
+
+        // Iniciar pré-carregamento quando a página carregar
+        window.addEventListener('load', preloadModels);
+
         document.addEventListener('DOMContentLoaded', function() {
             const modelViewer = document.querySelector('#model-viewer');
             const modelButtons = document.querySelectorAll('.model-button');
@@ -162,15 +188,19 @@
             
             // Configurar seletor de modelos
             modelButtons.forEach(button => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', async () => {
                     // Remover classe active de todos os botões
                     modelButtons.forEach(btn => btn.classList.remove('active'));
                     // Adicionar classe active ao botão clicado
                     button.classList.add('active');
                     
-                    // Atualizar modelo
+                    // Atualizar modelo usando o modelo pré-carregado se disponível
                     const modelName = button.getAttribute('data-model');
-                    modelViewer.src = `modelo3d/${modelName}.glb`;
+                    if (preloadedModels.has(modelName)) {
+                        modelViewer.src = preloadedModels.get(modelName);
+                    } else {
+                        modelViewer.src = `modelo3d/${modelName}.glb`;
+                    }
                     modelViewer.iosSrc = `modelo3d/${modelName}.usdz`;
                     
                     // Mostrar botão AR apropriado
