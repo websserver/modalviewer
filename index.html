@@ -12,6 +12,29 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Modal de Verificação de Idade -->
+    <div class="age-verification-modal" id="ageVerificationModal">
+        <div class="age-verification-content">
+            <img src="https://www.iqos.com/content/dam/iqos/pt/logo/iqos-logo.svg" alt="IQOS Logo" class="age-verification-logo">
+            <p class="age-verification-title">
+                Introduza a sua data de nascimento para confirmar que é um utilizador adulto de produtos de tabaco ou nicotina.
+            </p>
+            <div class="age-selectors">
+                <select class="age-select" id="monthSelect">
+                    <option value="">MÊS *</option>
+                </select>
+                <select class="age-select" id="yearSelect">
+                    <option value="">ANO *</option>
+                </select>
+            </div>
+            <button class="age-verify-button" id="confirmAgeBtn" disabled>CONFIRMAR</button>
+            <p class="age-verification-disclaimer">
+                Este website contém informação sobre os nossos produtos sem fumo. Precisamos de conhecer a sua idade para assegurar que é um adulto que de outra forma continuaria a fumar ou a usar produtos com nicotina. Os nossos produtos sem fumo não são uma alternativa para deixar de fumar nem foram concebidos como meios de cessação. Não estão isentos de riscos, contêm nicotina que cria dependência e destinam-se exclusivamente a adultos.<br>
+                Consulte a pagina de Informação Importante no site para mais informação sobre os riscos.
+            </p>
+        </div>
+    </div>
+
     <header class="hero-header">
         <div class="hero-content">
             <H2>NOVO</H2>
@@ -163,7 +186,7 @@
 
     <footer class="footer">
         <p class="footer-warning">
-            <b>ste produto não é isento de risco e contém nicotina, uma substância que cria dependência. Destinado apenas a fumadores adultos.</b>
+            <b>ESTE PRODUTO NÃO É ISENTO DE RISCO E CONTÉM NICOTINA, UMA SUBSTÂNCIA QUE CRIA DEPENDÊNCIA. DESTINADO APENAS A FUMADORES ADULTOS.</b>
         </p>
         <p class="footer-copyright">
             © 2025 Philip Morris Products SA. Todos os direitos reservados.
@@ -171,6 +194,71 @@
     </footer>
 
     <script>
+        // Verificação de Idade
+        document.addEventListener('DOMContentLoaded', function() {
+            const monthSelect = document.getElementById('monthSelect');
+            const yearSelect = document.getElementById('yearSelect');
+            const confirmBtn = document.getElementById('confirmAgeBtn');
+            const modal = document.getElementById('ageVerificationModal');
+
+            // Preencher meses
+            const months = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+            months.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = index + 1;
+                option.textContent = month;
+                monthSelect.appendChild(option);
+            });
+
+            // Preencher anos (últimos 120 anos)
+            const currentYear = new Date().getFullYear();
+            for (let year = currentYear; year >= currentYear - 120; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+
+            // Habilitar/desabilitar botão de confirmação
+            function checkAge() {
+                const month = monthSelect.value;
+                const year = yearSelect.value;
+                
+                if (month && year) {
+                    const birthDate = new Date(year, month - 1);
+                    const today = new Date();
+                    const age = today.getFullYear() - birthDate.getFullYear();
+                    const m = today.getMonth() - birthDate.getMonth();
+                    
+                    // Ajustar idade se ainda não fez aniversário este ano
+                    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                        age--;
+                    }
+                    
+                    confirmBtn.disabled = age < 18;
+                } else {
+                    confirmBtn.disabled = true;
+                }
+            }
+
+            monthSelect.addEventListener('change', checkAge);
+            yearSelect.addEventListener('change', checkAge);
+
+            // Verificar se já foi verificado antes
+            if (localStorage.getItem('ageVerified')) {
+                modal.style.display = 'none';
+            }
+
+            // Confirmar idade
+            confirmBtn.addEventListener('click', () => {
+                localStorage.setItem('ageVerified', 'true');
+                modal.style.display = 'none';
+            });
+        });
+
         // Função para scroll suave
         function scrollToSelector() {
             document.getElementById('model-selector').scrollIntoView({ 
