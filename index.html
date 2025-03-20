@@ -73,7 +73,7 @@
             exposure="1"
             environment-image="neutral"
             interaction-prompt="none"
-            scale="3 3 3"
+            scale="7 7 7"
             min-camera-orbit="auto auto 5%"
             max-camera-orbit="auto auto 100%"
             camera-orbit="0deg 75deg 105%"
@@ -210,7 +210,7 @@
                     console.error('Erro ao ativar AR:', error);
                     // Fallback para scene-viewer se webxr falhar
                     const modelName = modelViewer.src.split('/').pop().split('.')[0];
-                    window.location.href = `intent://arvr.google.com/scene-viewer/1.0?file=${window.location.origin}/modelo3d/${modelName}.glb&mode=ar_preferred&resizable=false&scale=2.0#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
+                    window.location.href = `intent://arvr.google.com/scene-viewer/1.0?file=${window.location.origin}/modelo3d/${modelName}.glb&mode=ar_preferred&resizable=false&scale=7.0#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
                 }
             }
 
