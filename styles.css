@@ -67,41 +67,49 @@ model-viewer {
 
 /* Botões de controle */
 .controls {
-    display: none; /* Por padrão, esconde os botões */
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
     gap: 10px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-/* Mostra os botões apenas em tablets e PCs (telas maiores que 768px) */
-@media screen and (min-width: 768px) {
-    .controls {
-        display: flex;
-    }
+    z-index: 10;
 }
 
 .controls button {
-    background-color: #ffffff;
-    border: 2px solid #00BFB3;
-    color: #00BFB3;
-    padding: 12px 24px;
-    border-radius: 25px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
 .controls button:hover {
-    background-color: #00BFB3;
-    color: white;
-    transform: translateY(-2px);
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
 }
 
 .controls button:active {
-    transform: translateY(0);
-    background-color: #009B8F;
+    transform: scale(0.95);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Container para o model-viewer e controles */
+.model-container {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    background-color: #ffffff;
+    overflow: hidden;
 }
 
 /* Botões AR */
@@ -302,11 +310,13 @@ model-viewer[ar-tracking] .hotspot-dot {
     }
 
     .controls {
-        flex-wrap: wrap;
+        right: 10px;
     }
 
     .controls button {
-        width: calc(50% - 10px);
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
     }
 }
 
@@ -320,8 +330,9 @@ model-viewer[ar-tracking] .hotspot-dot {
     }
 
     .controls button {
-        width: 100%;
-        margin: 5px 0;
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
     }
 }
 

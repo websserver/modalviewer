@@ -57,109 +57,107 @@
         </div>
 
         <!-- Visualizador 3D -->
-        <model-viewer
-            id="model-viewer"
-            src="modelo3d/iprimeaqua_1.glb"
-            ios-src="modelo3d/iprimeaqua_1.usdz"
-            alt="Modelo 3D"
-            ar
-            ar-modes="scene-viewer webxr quick-look"
-            ar-scale="fixed"
-            ar-placement="floor"
-            camera-controls
-            auto-rotate
-            shadow-intensity="1"
-            shadow-softness="0"
-            exposure="1"
-            environment-image="neutral"
-            interaction-prompt="none"
-            scale="7 7 7"
-            min-camera-orbit="auto auto 5%"
-            max-camera-orbit="auto auto 100%"
-            camera-orbit="0deg 75deg 105%"
-            loading="eager"
-            loading-progress="none"
-            preload
-            loading-mode="eager"
-            draco-decoder-path="https://www.gstatic.com/draco/versioned/decoders/1.5.6/"
-            style="width: 100%; height: 70vh; background-color: #ffffff;">
+        <div class="model-container">
+            <model-viewer
+                id="model-viewer"
+                src="modelo3d/iprimeaqua_1.glb"
+                ios-src="modelo3d/iprimeaqua_1.usdz"
+                alt="Modelo 3D"
+                ar
+                ar-modes="scene-viewer webxr quick-look"
+                ar-scale="fixed"
+                ar-placement="floor"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                shadow-softness="0"
+                exposure="1"
+                environment-image="neutral"
+                interaction-prompt="none"
+                scale="7 7 7"
+                min-camera-orbit="auto auto 5%"
+                max-camera-orbit="auto auto 100%"
+                camera-orbit="0deg 75deg 105%"
+                loading="eager"
+                loading-progress="none"
+                preload
+                loading-mode="eager"
+                draco-decoder-path="https://www.gstatic.com/draco/versioned/decoders/1.5.6/"
+                style="width: 100%; height: 100%; background-color: #ffffff;">
 
-            <!-- Hotspots -->
-            <button class="hotspot" slot="hotspot-1" data-position="0.1 0.2 0.1" data-normal="0 1 0" data-visibility-attribute="visible">
-                <div class="hotspot-dot"></div>
-                <div class="hotspot-label">Tela OLED</div>
-            </button>
+                <!-- Hotspots -->
+                <button class="hotspot" slot="hotspot-1" data-position="0.1 0.2 0.1" data-normal="0 1 0" data-visibility-attribute="visible">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-label">Tela OLED</div>
+                </button>
 
-            <button class="hotspot" slot="hotspot-2" data-position="-0.1 0.15 0" data-normal="0 1 0" data-visibility-attribute="visible">
-                <div class="hotspot-dot"></div>
-                <div class="hotspot-label">Bateria</div>
-            </button>
+                <button class="hotspot" slot="hotspot-2" data-position="-0.1 0.15 0" data-normal="0 1 0" data-visibility-attribute="visible">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-label">Bateria</div>
+                </button>
 
-            <button class="hotspot" slot="hotspot-3" data-position="0 0.25 0.1" data-normal="0 1 0" data-visibility-attribute="visible">
-                <div class="hotspot-dot"></div>
-                <div class="hotspot-label">Câmara de Aquecimento</div>
-            </button>
+                <button class="hotspot" slot="hotspot-3" data-position="0 0.25 0.1" data-normal="0 1 0" data-visibility-attribute="visible">
+                    <div class="hotspot-dot"></div>
+                    <div class="hotspot-label">Câmara de Aquecimento</div>
+                </button>
 
-            <!-- Aviso AR -->
-            <div class="ar-placement-prompt" slot="ar-prompt">
-                Pouse o seu IQOS clicando no ecrã
+                <!-- Aviso AR -->
+                <div class="ar-placement-prompt" slot="ar-prompt">
+                    Pouse o seu IQOS clicando no ecrã
+                </div>
+
+                <!-- Instruções AR -->
+                <div class="ar-instructions" slot="ar-overlay">
+                    <div class="instruction-item">
+                        <span class="instruction-icon">👆</span>
+                        <span>Toque para colocar o modelo</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="instruction-icon">✋</span>
+                        <span>Arraste com um dedo para mover o modelo</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="instruction-icon">↻</span>
+                        <span>Gire com dois dedos para rodar</span>
+                    </div>
+                </div>
+
+                <div class="progress-bar hide" slot="progress-bar">
+                    <div class="update-bar"></div>
+                </div>
+            </model-viewer>
+
+            <div class="controls">
+                <button id="rotate-left" title="Girar Esquerda">↺</button>
+                <button id="rotate-right" title="Girar Direita">↻</button>
+                <button id="zoom-in" title="Aproximar">+</button>
+                <button id="zoom-out" title="Afastar">−</button>
             </div>
-
-            <!-- Instruções AR -->
-            <div class="ar-instructions" slot="ar-overlay">
-                <div class="instruction-item">
-                    <span class="instruction-icon">👆</span>
-                    <span>Toque para colocar o modelo</span>
-                </div>
-                <div class="instruction-item">
-                    <span class="instruction-icon">✋</span>
-                    <span>Arraste com um dedo para mover</span>
-                </div>
-                <div class="instruction-item">
-                    <span class="instruction-icon">🤏</span>
-                    <span>Belisque para redimensionar</span>
-                </div>
-                <div class="instruction-item">
-                    <span class="instruction-icon">↻</span>
-                    <span>Gire com dois dedos para rodar</span>
-                </div>
-            </div>
-
-            <div class="progress-bar hide" slot="progress-bar">
-                <div class="update-bar"></div>
-            </div>
-        </model-viewer>
-
-        <div class="controls">
-            <button id="rotate-left">⟲ Girar Esquerda</button>
-            <button id="rotate-right">⟳ Girar Direita</button>
-            <button id="zoom-in">+ Aproximar</button>
-            <button id="zoom-out">- Afastar</button>
         </div>
-    </div>
 
-    <div class="ar-modal" id="arModal">
-        <div class="ar-modal-content">
-            <h2>Como usar a Realidade Aumentada</h2>
-            <div class="ar-instructions-list">
-                <div class="instruction-item">
-                    <span class="instruction-icon">👆</span>
-                    <span>Toque para colocar o modelo</span>
+        <div class="ar-modal" id="arModal">
+            <div class="ar-modal-content">
+                <h2>Como usar a Realidade Aumentada</h2>
+                <div class="ar-instructions-list">
+                    <div class="instruction-item">
+                        <span class="instruction-icon">👆</span>
+                        <span>Toque para colocar o modelo</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="instruction-icon">✋</span>
+                        <span>Arraste com um dedo para mover o modelo</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="instruction-icon">↻</span>
+                        <span>Gire com dois dedos para rodar</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="instruction-icon">📍</span>
+                        <span>O modelo ficará fixo onde foi colocado. Se mover a câmera para longe, volte ao local inicial ou feche e abra novamente para reposicionar</span>
+                    </div>
                 </div>
-                <div class="instruction-item">
-                    <span class="instruction-icon">✋</span>
-                    <span>Arraste com um dedo para mover o modelo</span>
-                </div>
-                <div class="instruction-item">
-                    <span class="instruction-icon">↻</span>
-                    <span>Gire com dois dedos para rodar</span>
-                </div>
-                <div class="instruction-item">
-                    <span class="instruction-icon">📍</span>
-                    <span>O modelo ficará fixo onde foi colocado. Se mover a câmera para longe, volte ao local inicial ou feche e abra novamente para reposicionar</span>
-                </div>
+                <button id="startAR" class="ar-start-button">Iniciar Experiência AR</button>
             </div>
-            <button id="startAR" class="ar-start-button">Iniciar Experiência AR</button>
         </div>
     </div>
 
@@ -292,39 +290,29 @@
             const zoomInBtn = document.getElementById('zoom-in');
             const zoomOutBtn = document.getElementById('zoom-out');
 
-            // Variáveis para controle de rotação e zoom
-            let currentOrbitY = 0;
+            let currentRotation = 0;
+            const rotationStep = 30;
             let currentZoom = 105;
-            const orbitDelta = 10;
-            const zoomDelta = 10;
+            const zoomStep = 10;
 
-            // Função para atualizar a órbita da câmera
-            function updateCameraOrbit() {
-                modelViewer.cameraOrbit = `${currentOrbitY}deg 75deg ${currentZoom}%`;
-            }
-
-            // Rotação para esquerda
             rotateLeftBtn.addEventListener('click', () => {
-                currentOrbitY = (currentOrbitY - orbitDelta) % 360;
-                updateCameraOrbit();
+                currentRotation -= rotationStep;
+                modelViewer.cameraOrbit = `${currentRotation}deg 75deg ${currentZoom}%`;
             });
 
-            // Rotação para direita
             rotateRightBtn.addEventListener('click', () => {
-                currentOrbitY = (currentOrbitY + orbitDelta) % 360;
-                updateCameraOrbit();
+                currentRotation += rotationStep;
+                modelViewer.cameraOrbit = `${currentRotation}deg 75deg ${currentZoom}%`;
             });
 
-            // Zoom in
             zoomInBtn.addEventListener('click', () => {
-                currentZoom = Math.max(50, currentZoom - zoomDelta);
-                updateCameraOrbit();
+                currentZoom = Math.max(currentZoom - zoomStep, 50);
+                modelViewer.cameraOrbit = `${currentRotation}deg 75deg ${currentZoom}%`;
             });
 
-            // Zoom out
             zoomOutBtn.addEventListener('click', () => {
-                currentZoom = Math.min(200, currentZoom + zoomDelta);
-                updateCameraOrbit();
+                currentZoom = Math.min(currentZoom + zoomStep, 150);
+                modelViewer.cameraOrbit = `${currentRotation}deg 75deg ${currentZoom}%`;
             });
 
             // Atualizar hotspots quando o modelo carregar
