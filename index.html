@@ -63,7 +63,8 @@
             ios-src="modelo3d/iprimeaqua_1.usdz"
             alt="Modelo 3D"
             ar
-            ar-modes="webxr scene-viewer quick-look"
+            ar-modes="scene-viewer webxr quick-look"
+            ar-scale="fixed"
             camera-controls
             auto-rotate
             shadow-intensity="1"
@@ -72,7 +73,6 @@
             environment-image="neutral"
             interaction-prompt="none"
             ar-placement="floor"
-            ar-scale="fixed"
             scale="2 2 2"
             min-camera-orbit="auto auto 5%"
             max-camera-orbit="auto auto 100%"
@@ -177,6 +177,18 @@
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             const isAndroid = /Android/i.test(navigator.userAgent);
 
+            // Função para ativar AR no Android
+            async function activateARAndroid() {
+                try {
+                    await modelViewer.activateAR();
+                } catch (error) {
+                    console.error('Erro ao ativar AR:', error);
+                    // Fallback para scene-viewer se webxr falhar
+                    const modelName = modelViewer.src.split('/').pop().split('.')[0];
+                    window.location.href = `intent://arvr.google.com/scene-viewer/1.0?file=${window.location.origin}/modelo3d/${modelName}.glb#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
+                }
+            }
+
             // Configurar botões AR baseado no dispositivo
             if (isIOS) {
                 arButtonIOS.style.display = 'block';
@@ -184,6 +196,8 @@
             } else if (isAndroid) {
                 arButtonAndroid.style.display = 'block';
                 arButtonIOS.style.display = 'none';
+                // Adicionar evento de clique para Android
+                arButtonAndroid.onclick = activateARAndroid;
             }
             
             // Configurar seletor de modelos
@@ -211,9 +225,7 @@
                         };
                     } else if (isAndroid) {
                         arButtonAndroid.style.display = 'block';
-                        arButtonAndroid.onclick = () => {
-                            modelViewer.activateAR();
-                        };
+                        arButtonAndroid.onclick = activateARAndroid;
                     }
                     
                     // Resetar câmera
