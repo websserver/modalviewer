@@ -138,6 +138,31 @@
         </div>
     </div>
 
+    <div class="ar-modal" id="arModal">
+        <div class="ar-modal-content">
+            <h2>Como usar a Realidade Aumentada</h2>
+            <div class="ar-instructions-list">
+                <div class="instruction-item">
+                    <span class="instruction-icon">👆</span>
+                    <span>Toque para colocar o modelo</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="instruction-icon">✋</span>
+                    <span>Arraste com um dedo para mover</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="instruction-icon">🤏</span>
+                    <span>Belisque para redimensionar</span>
+                </div>
+                <div class="instruction-item">
+                    <span class="instruction-icon">↻</span>
+                    <span>Gire com dois dedos para rodar</span>
+                </div>
+            </div>
+            <button id="startAR" class="ar-start-button">Iniciar Experiência AR</button>
+        </div>
+    </div>
+
     <script>
         // Função para scroll suave
         function scrollToSelector() {
@@ -199,17 +224,32 @@
                 }
             }
 
+            // Configurar modal AR
+            const arModal = document.getElementById('arModal');
+            const startARButton = document.getElementById('startAR');
+
+            function showARInstructions() {
+                arModal.style.display = 'flex';
+            }
+
+            function hideARInstructions() {
+                arModal.style.display = 'none';
+            }
+
+            startARButton.addEventListener('click', () => {
+                hideARInstructions();
+                activateARAndroid();
+            });
+
             // Configurar botões AR baseado no dispositivo
             if (isIOS) {
                 arButtonIOS.style.display = 'block';
                 arButtonAndroid.style.display = 'none';
-                // Adicionar evento de clique para iOS
                 arButtonIOS.onclick = activateARiOS;
             } else if (isAndroid) {
                 arButtonAndroid.style.display = 'block';
                 arButtonIOS.style.display = 'none';
-                // Adicionar evento de clique para Android
-                arButtonAndroid.onclick = activateARAndroid;
+                arButtonAndroid.onclick = showARInstructions;
             }
             
             // Configurar seletor de modelos
@@ -237,7 +277,7 @@
                         };
                     } else if (isAndroid) {
                         arButtonAndroid.style.display = 'block';
-                        arButtonAndroid.onclick = activateARAndroid;
+                        arButtonAndroid.onclick = showARInstructions;
                     }
                     
                     // Resetar câmera
